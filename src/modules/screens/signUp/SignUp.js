@@ -4,31 +4,49 @@ import * as Yup from 'yup';
 
 import { TextInput, CustomButton } from './../../components';
 import { onSignUp } from './../../api/auth';
+import { useHistory } from 'react-router-dom';
 
 const SignUp = props => {
+  const history = useHistory();
+
   const handleSignUp = async values => {
     try {
       const { firstName, lastName, phone, email, password } = values;
       const result = await onSignUp({ firstName, lastName, phone, email, password, role: 'ROLE_ADMIN' });
       console.log(result);
+      if (result.status === 201) {
+        history.push('/sign-in');
+      }
     } catch (error) {
       console.log(error.message);
     }
   }
 
+  const SignUpSchema = Yup.object().shape({
+    firstName: Yup
+      .string()
+      .required('First name is required.'),
+    lastName: Yup.string()
+      .required('Last name is required.'),
+    phone: Yup
+      .string()
+      .required('Phone is required.'),
+    email: Yup
+      .string()
+      .email('Invalid email address.')
+      .required('Email is required.'),
+    password: Yup
+      .string()
+      .required('Password is required.')
+      .min(4, 'Password should be minimum 4 characters.')
+      .max(15, 'Password should be maximum 15 characters.')
+  })
+
   return <div>
     <Formik
       initialValues={{ firstName: '', lastName: '', phone: '', email: '', password: '' }}
       onSubmit={handleSignUp}
-      validationSchema={
-        Yup.object().shape({
-          firstName: Yup.string().required('First name is required.'),
-          lastName: Yup.string().required('Last name is required.'),
-          phone: Yup.string().required('Phone is required.'),
-          email: Yup.string().email('Invalid email address.').required('Email is required.'),
-          password: Yup.string().required('Password is required.').min(6, 'Password should be minimum 6 characters.').max(15, 'Password should be maximum 15 characters.')
-        })
-      }
+      validationSchema={SignUpSchema}
     >
       {
         () => {
