@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  height: fit-content;
+  width: fit-content;
+  margin: 2% 0;
+}
+
+.input {
+  text-align: center;
+  width: 60px;
+  border: 1px solid #dedede;
+}
+
+.button {
+  border: 1px solid #dedede;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: auto;
+  height: auto;
+}
+
+.error {
+  color: red;
+}
+
+.button__div {
+  padding: 0px;
+  border: none;
+}
+
+.input:disabled {
+  background-color: white;
+}
+
+.button__div:disabled .button {
+  background-color: gray;
+}
