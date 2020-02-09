@@ -8,6 +8,7 @@ import styles from './Root.module.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
+import Shipping from './screens/cart/shipping/Shipping';
 
 const Root = props => {
   const [isOpen, setOpen] = useState(false);
@@ -36,6 +37,9 @@ const Root = props => {
             </Route>
             <Route path='/cart' exact>
               <Cart />
+            </Route>
+            <Route path='/checkout' exact>
+              <Shipping />
             </Route>
           </Switch>
         </div>

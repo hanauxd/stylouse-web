@@ -18,7 +18,6 @@ const SignIn = props => {
       localStorage.setItem('jwt', result.data.jwt);
       localStorage.setItem('userId', result.data.userId);
       localStorage.setItem('tokenValidation', result.data.tokenValidation)
-      console.log(result)
       if (result.status === 200) {
         history.push('/');
       }

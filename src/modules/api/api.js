@@ -26,3 +26,15 @@ export const get = (endpoint, token = null) => {
   })
 }
 
+export const remove = (endpoint, body, token = null) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await axios.delete(`http://localhost:8080/${endpoint}/${body}`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
+      resolve(result.data)
+    } catch (error) {
+      reject(error.response.data)
+    }
+  })
+}
