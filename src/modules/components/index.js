@@ -4,3 +4,7 @@ export { default as Toolbar } from './toolbar/Toolbar';
 export { default as ProductListItem } from './productListItem/ProductListItem';
 export { default as ProductList } from './productList/ProductList';
 export { default as ProductDetail } from './productDetail/ProductDetail';
+export { default as CartItem } from './cart/cartItem';
+export { default as OrderItem } from './orderItem/OrderItem';
+export { default as OrderDetail } from './orderDetail/OrderDetail';
+export { default as Wishlist } from './wishlist/Wishlist';

@@ -1,10 +1,11 @@
 import React from 'react';
+import { MDBBtn } from 'mdbreact';
 
 const CustomButton = props => {
-  const { type, text, onSubmit } = props;
+  const { color = "default", type, text, onSubmit } = props;
   return (
     <div>
-      <button type={type} onSubmit={onSubmit}>{text}</button>
+      <MDBBtn color={color} block type={type} onSubmit={onSubmit}>{text}</MDBBtn>
     </div>
   )
 }

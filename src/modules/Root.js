@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { SignIn, SignUp, Home, ProductDetail, Cart } from './screens';
+import { SignIn, SignUp, Home, ProductDetail, Cart, Profile, OrderHistory } from './screens';
 import { Toolbar } from './components';
 
 import styles from './Root.module.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
+import Shipping from './screens/cart/shipping/Shipping';
 
 const Root = props => {
   const [isOpen, setOpen] = useState(false);
@@ -36,6 +37,15 @@ const Root = props => {
             </Route>
             <Route path='/cart' exact>
               <Cart />
+            </Route>
+            <Route path='/checkout' exact>
+              <Shipping />
+            </Route>
+            <Route path='/user' exact>
+              <Profile />
+            </Route>
+            <Route path='/orders' exact>
+              <OrderHistory />
             </Route>
           </Switch>
         </div>

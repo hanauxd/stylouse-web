@@ -69,8 +69,8 @@ const ProductDetail = props => {
               <label className={styles.decorate}>Quantity</label>
               <NumberInput name='quantity' stock={quantity} onSelect={setFieldValue} value={values.quantity} />
               <div className={styles.button__div}>
-                <MDBBtn onClick={handleSubmit}>ADD TO CART</MDBBtn>
-                <MDBBtn type="button">ADD TO WISHLIST</MDBBtn>
+                <MDBBtn color='black' onClick={handleSubmit}>ADD TO CART</MDBBtn>
+                <MDBBtn color='black' type="button">ADD TO WISHLIST</MDBBtn>
               </div>
             </div>
           }
