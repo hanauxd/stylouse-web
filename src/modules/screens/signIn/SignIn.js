@@ -8,6 +8,8 @@ import { onSignIn } from '../../api/auth';
 import { authSuccess } from './../../store/actions/auth';
 import { useHistory } from 'react-router-dom';
 
+import styles from './SignIn.module.css';
+
 const SignIn = props => {
   const history = useHistory();
   const handleSignIn = async values => {
@@ -22,7 +24,9 @@ const SignIn = props => {
         history.push('/');
       }
     } catch (error) {
-      console.log(error.message);
+      if (error.response.status === 403 || error.response.status === 404) {
+        alert("Invalid username or password.")
+      }
     }
   }
 
@@ -36,7 +40,7 @@ const SignIn = props => {
       .required('Password is required.')
   });
 
-  return <div>
+  return (
     <Formik
       initialValues={{ username: 'admin@test.com', password: 'pass' }}
       onSubmit={handleSignIn}
@@ -44,16 +48,23 @@ const SignIn = props => {
       {
         () => {
           return (
-            <Form>
-              <TextInput name="username" type="email" placeholder="someone@gmail.com" />
-              <TextInput name="password" type="password" placeholder="Enter password" />
-              <CustomButton type="submit" text='SIGN IN' />
-            </Form>
+            <div className={styles.container}>
+              <div>
+                <span>SIGN IN</span>
+              </div>
+              <Form>
+                <label>Email</label>
+                <TextInput name="username" type="email" placeholder="someone@gmail.com" required />
+                <label>Password</label>
+                <TextInput name="password" type="password" placeholder="Enter password" required />
+                <CustomButton color="elegant" type="submit" text='SIGN IN' />
+              </Form>
+            </div>
           )
         }
       }
     </Formik>
-  </div>
+  )
 }
 
 const mapStateToProps = state => {

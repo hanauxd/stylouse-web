@@ -8,7 +8,7 @@ export const post = (endpoint, body, token = null) => {
       });
       resolve({ data: result.data, status: result.status })
     } catch (error) {
-      reject(error.response.data)
+      reject(error)
     };
   });
 }
@@ -21,7 +21,7 @@ export const get = (endpoint, token = null) => {
       });
       resolve(result.data)
     } catch (error) {
-      reject(error.response.data)
+      reject(error)
     }
   })
 }
@@ -34,7 +34,7 @@ export const remove = (endpoint, body, token = null) => {
       });
       resolve(result.data)
     } catch (error) {
-      reject(error.response.data)
+      reject(error)
     }
   })
 }

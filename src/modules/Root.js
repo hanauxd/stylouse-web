@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { SignIn, SignUp, Home, ProductDetail, Cart } from './screens';
+import { SignIn, SignUp, Home, ProductDetail, Cart, Profile, OrderHistory } from './screens';
 import { Toolbar } from './components';
 
 import styles from './Root.module.css';
@@ -40,6 +40,12 @@ const Root = props => {
             </Route>
             <Route path='/checkout' exact>
               <Shipping />
+            </Route>
+            <Route path='/user' exact>
+              <Profile />
+            </Route>
+            <Route path='/orders' exact>
+              <OrderHistory />
             </Route>
           </Switch>
         </div>

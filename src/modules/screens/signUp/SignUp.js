@@ -1,10 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import { TextInput, CustomButton } from './../../components';
 import { onSignUp } from './../../api/auth';
-import { useHistory } from 'react-router-dom';
+
+import styles from './SignUp.module.css';
 
 const SignUp = props => {
   const history = useHistory();
@@ -18,7 +20,9 @@ const SignUp = props => {
         history.push('/sign-in');
       }
     } catch (error) {
-      console.log(error.message);
+      if (error.response.status === 400) {
+        alert("Email already exist.")
+      }
     }
   }
 
@@ -42,28 +46,40 @@ const SignUp = props => {
       .max(15, 'Password should be maximum 15 characters.')
   })
 
-  return <div>
-    <Formik
-      initialValues={{ firstName: '', lastName: '', phone: '', email: '', password: '' }}
-      onSubmit={handleSignUp}
-      validationSchema={SignUpSchema}
-    >
-      {
-        () => {
-          return (
-            <Form>
-              <TextInput name='firstName' type='string' placeholder='Enter first name' />
-              <TextInput name='lastName' type='string' placeholder='Enter last name' />
-              <TextInput name='phone' type='string' placeholder='Enter contact number' />
-              <TextInput name='email' type='email' placeholder='Enter email address' />
-              <TextInput name='password' type='password' placeholder='Enter password' />
-              <CustomButton type='submit' text='SIGN UP' />
-            </Form>
-          )
+  return (
+    <div>
+      <Formik
+        initialValues={{ firstName: '', lastName: '', phone: '', email: '', password: '' }}
+        onSubmit={handleSignUp}
+        validationSchema={SignUpSchema}
+      >
+        {
+          () => {
+            return (
+              <div className={styles.container}>
+                <div>
+                  <span>SIGN UP</span>
+                </div>
+                <Form>
+                  <label>First Name</label>
+                  <TextInput name='firstName' type='string' placeholder='Enter first name' required />
+                  <label>Last Name</label>
+                  <TextInput name='lastName' type='string' placeholder='Enter last name' required />
+                  <label>Phone</label>
+                  <TextInput name='phone' type='string' placeholder='Enter contact number' required />
+                  <label>Email</label>
+                  <TextInput name='email' type='email' placeholder='Enter email address' required />
+                  <label>Password</label>
+                  <TextInput name='password' type='password' placeholder='Enter password' required />
+                  <CustomButton color='elegant' type='submit' text='SIGN UP' />
+                </Form>
+              </div>
+            )
+          }
         }
-      }
-    </Formik>
-  </div>
+      </Formik>
+    </div>
+  )
 }
 
 export default SignUp;

@@ -25,7 +25,7 @@ const Toolbar = props => {
             </MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>
-            <MDBNavLink to="#!">
+            <MDBNavLink to="/user">
               Profile <i className="fas fa-user"></i>
             </MDBNavLink>
           </MDBNavItem>

@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 
 import { ProductListItem } from '../index';
 import { onGetAllProducts } from './../../api/products';
-import { getProducts } from './../../store/actions/products';
 import { useCustomState } from '../../helpers/hooks';
 
 import styles from './ProductList.module.css';
@@ -17,11 +15,11 @@ const ProductList = props => {
   })
 
   useEffect(() => {
-    getAllProducts()
+    fetchAllProducts();
     //eslint-disable-next-line
   }, [])
 
-  const getAllProducts = async () => {
+  const fetchAllProducts = async () => {
     try {
       setState({
         loading: true,
@@ -32,7 +30,6 @@ const ProductList = props => {
         loading: false,
         products: [...result]
       })
-      //  props.onLoaded(result);
     } catch (error) {
       setState({
         loading: false,
@@ -46,19 +43,14 @@ const ProductList = props => {
   }
 
   const renderError = () => {
-    return <div>{state.error}</div>
+    return <h2>{state.error}</h2>
   }
 
   const renderProducts = product => {
     return (
       <ProductListItem
         key={product.id}
-        src={`http://localhost:8080/product/images/download/${product.productImages[0].filename}`}
-        category={product.productCategories[0].category.category}
-        title={product.name}
-        description={product.description}
-        price={product.price}
-        id={product.id}
+        product={product}
       />
     )
   }
@@ -75,18 +67,4 @@ const ProductList = props => {
   return state.loading ? renderLoading() : state.error ? renderError() : renderProductList();
 }
 
-const mapStateToProps = state => {
-  return {
-    products: state.products.products
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onLoaded: productsData => {
-      dispatch(getProducts(productsData));
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
+export default ProductList;
