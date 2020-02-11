@@ -17,15 +17,20 @@ const SignIn = props => {
       const { username, password } = values;
       const result = await onSignIn({ username, password });
       props.onSuccess(result)
-      localStorage.setItem('jwt', result.data.jwt);
+      const jwt = result.data.jwt;
+      const userRole = result.data.userRole;
+      const isAuth = jwt !== null;
+      localStorage.setItem('jwt', jwt);
       localStorage.setItem('userId', result.data.userId);
-      localStorage.setItem('tokenValidation', result.data.tokenValidation)
+      localStorage.setItem('tokenValidation', result.data.tokenValidation);
+      localStorage.setItem('userRole', userRole);
+      props.onSuccess({ username, password, isAuth, userRole })
       if (result.status === 200) {
         history.push('/');
       }
     } catch (error) {
       if (error.response.status === 403 || error.response.status === 404) {
-        alert("Invalid username or password.")
+        alert("Invalid username or password.");
       }
     }
   }

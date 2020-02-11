@@ -14,7 +14,7 @@ const SignUp = props => {
   const handleSignUp = async values => {
     try {
       const { firstName, lastName, phone, email, password } = values;
-      const result = await onSignUp({ firstName, lastName, phone, email, password, role: 'ROLE_ADMIN' });
+      const result = await onSignUp({ firstName, lastName, phone, email, password, role: 'ROLE_USER' });
       console.log(result);
       if (result.status === 201) {
         history.push('/sign-in');
@@ -30,7 +30,8 @@ const SignUp = props => {
     firstName: Yup
       .string()
       .required('First name is required.'),
-    lastName: Yup.string()
+    lastName: Yup
+      .string()
       .required('Last name is required.'),
     phone: Yup
       .string()

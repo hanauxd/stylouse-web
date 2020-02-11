@@ -8,3 +8,5 @@ export { default as CartItem } from './cart/cartItem';
 export { default as OrderItem } from './orderItem/OrderItem';
 export { default as OrderDetail } from './orderDetail/OrderDetail';
 export { default as Wishlist } from './wishlist/Wishlist';
+export { default as AddProduct } from './admin/product/AddProduct';
+export { default as AddCategory } from './admin/category/AddCategory';

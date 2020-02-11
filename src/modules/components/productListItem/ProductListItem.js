@@ -13,12 +13,11 @@ const ProductListItem = props => {
   })
 
   const history = useHistory();
-  const { product: { id, name, price, }, fav } = props;
+  const { product: { id, name, price, } } = props;
   const src = `http://localhost:8080/product/images/download/${props.product.productImages[0].filename}`;
   const category = props.product.productCategories[0].category.category;
 
-
-  const handleAddToCart = () => {
+  const handleViewProduct = () => {
     history.push(`/products/${id}`)
   }
 
@@ -33,20 +32,10 @@ const ProductListItem = props => {
     }
   }
 
-  const rHeart = {
-    color: 'red'
-  }
-
-  const gHeart = {
-    color: 'gray'
-  }
-
-  const favDeco = fav ? rHeart : gHeart;
-
   return (
     <div className={styles.product}>
       <MDBCard className=" z-depth-1-half">
-        <div className="view zoom">
+        <div className="view zoom" onClick={handleViewProduct}>
           <MDBCardImage
             style={{ width: "18rem", height: `${18 / (525 / 668)}rem` }}
             className="img-fluid"
@@ -68,8 +57,8 @@ const ProductListItem = props => {
               <strong>{formatter.format(price)}</strong>
             </span>
             <span className="float-right">
-              <MDBIcon style={favDeco} className={styles.icon} icon="fa fa-heart ml-3" onClick={handleAddToWishlist} />
-              <MDBIcon className={styles.icon} icon="fa fa-shopping-cart ml-3" onClick={handleAddToCart} />
+              <MDBIcon className={styles.icon} icon="fa fa-heart ml-3" onClick={handleAddToWishlist} />
+              <MDBIcon className={styles.icon} icon="fa fa-shopping-cart ml-3" onClick={handleViewProduct} />
             </span>
           </div>
         </MDBCardBody>
