@@ -1,11 +1,20 @@
-import { get } from './api';
+import { get, post } from './api';
+
+let endpoint = 'products';
 
 export const onGetAllProducts = () => {
-  const endpoint = 'products';
   return get(endpoint);
 }
 
 export const onGetProduct = id => {
-  const endpoint = `products/${id}`
-  return get(endpoint)
+  return get(endpoint.concat(`/${id}`))
+}
+
+export const onAddProduct = (product, files, token) => {
+  let formData = new FormData();
+  formData.append('product', JSON.stringify(product));
+  files.forEach(file => {
+    formData.append('file', file);
+  })
+  return post(endpoint, formData, token)
 }

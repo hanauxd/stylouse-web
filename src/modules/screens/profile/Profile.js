@@ -1,85 +1,35 @@
 import React, { useEffect } from 'react';
-import { MDBCol, MDBInput, MDBRow, MDBBtn } from 'mdbreact';
-import { useCustomState } from './../../helpers/hooks';
+import { connect } from 'react-redux';
+import { MDBBtn } from 'mdbreact';
 
-import { onViewProfile } from '../../api/user';
+import { useCustomState } from './../../helpers/hooks';
+import { OrderHistory } from '../index';
+import { Wishlist, User } from '../../components';
 
 import styles from './Profile.module.css';
-import { OrderHistory } from '../index';
-import { Wishlist } from '../../components';
 
 const Profile = props => {
-  useEffect(() => {
-    handleViewProfile()
-    //eslint-disable-next-line
-  }, []);
-
   const [state, setState] = useCustomState({
-    loading: true,
-    error: null,
-    view: null,
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-  })
+    view: null
+  });
 
-  const handleViewProfile = async () => {
-    try {
-      const result = await onViewProfile();
-      console.log(result)
-      setState({
-        loading: false,
-        firstName: result.firstName,
-        lastName: result.lastName,
-        email: result.email,
-        phone: result.phone,
-        view: profile
-      })
-    } catch (error) {
-      console.log(error)
-      setState({
-        loading: false,
-        error: error.message
-      })
-    }
-  }
+  useEffect(() => {
+    setState({
+      view: user
+    });
+    //eslint-disable-next-line
+  }, [])
 
-  const profile = (
-    <div className={styles.profile__div}>
-      <span>User Details</span>
-      <hr />
-      <MDBRow>
-        <MDBCol>
-          <MDBInput label="First Name" type="text" hint={state.firstName} className="form-control mb-4" />
-        </MDBCol>
-        <MDBCol>
-          <MDBInput label="Last Name" type="text" hint={state.lastName} className="form-control mb-4" />
-        </MDBCol>
-      </MDBRow>
-      <MDBRow>
-        <MDBCol>
-          <MDBInput label="Phone" type="text" hint={state.phone} className="form-control mb-4" />
-        </MDBCol>
-      </MDBRow>
-      <MDBRow>
-        <MDBCol>
-          <MDBInput disabled label="Email Address" type="email" hint={state.email} className="form-control mb-4" />
-        </MDBCol>
-      </MDBRow>
-    </div>
-  )
+  const user = <User token={props.auth.jwt} />
+  const order = <OrderHistory token={props.auth.jwt} />
+  const wishlist = <Wishlist token={props.auth.jwt} />
 
-  const order = <OrderHistory />
-
-  const wishlist = <Wishlist />
-
-  const handleRenderer = value => {
-    switch (value) {
+  const handleRenderer = page => {
+    switch (page) {
       case 'order': setState({ view: order }); break;
       case 'wishlist': setState({ view: wishlist }); break;
-      case 'profile': setState({ view: profile }); break;
-      default: setState({ view: profile }); break;
+      case 'profile': setState({ view: user }); break;
+      default: setState({ view: user }); break;
     }
   }
 
@@ -98,4 +48,10 @@ const Profile = props => {
   )
 }
 
-export default Profile;
+const mapPropsToState = state => {
+  return {
+    auth: state.auth.auth
+  }
+}
+
+export default connect(mapPropsToState)(Profile);

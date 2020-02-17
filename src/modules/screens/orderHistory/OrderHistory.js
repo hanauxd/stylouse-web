@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { OrderItem } from '../../components';
+import { OrderItem, Spinner } from '../../components';
 import { onFetchOrderHistory } from '../../api/order';
 import { useCustomState } from '../../helpers/hooks';
 
@@ -25,7 +25,7 @@ const OrderHistory = props => {
 
   const fetchOrderHistory = async () => {
     try {
-      const result = await onFetchOrderHistory();
+      const result = await onFetchOrderHistory(props.token);
       setState({
         loading: false,
         orders: [...result]
@@ -39,7 +39,7 @@ const OrderHistory = props => {
   }
 
   const renderLoading = () => {
-    return <h3>Loading...</h3>
+    return <Spinner />
   }
 
   const renderError = () => {

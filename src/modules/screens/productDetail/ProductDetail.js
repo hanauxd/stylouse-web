@@ -3,13 +3,13 @@ import { withRouter } from 'react-router-dom';
 
 import { useCustomState } from '../../helpers/hooks';
 import { onGetProduct } from '../../api/products';
-import { ProductDetail } from '../../components';
+import { ProductDetail, Spinner } from '../../components';
 
 const Product = props => {
   const { match: { params: { id } } } = props;
 
   const [state, setState] = useCustomState({
-    product: {},
+    product: null,
     loading: true,
     error: null
   });
@@ -21,10 +21,6 @@ const Product = props => {
 
   const loadProductFromApi = async () => {
     try {
-      setState({
-        loading: true,
-        error: null,
-      })
       const result = await onGetProduct(id);
       setState({
         loading: false,
@@ -39,7 +35,7 @@ const Product = props => {
   }
 
   const renderLoading = () => {
-    return <div>Loading...</div>
+    return <Spinner />
   }
 
   const renderError = () => {

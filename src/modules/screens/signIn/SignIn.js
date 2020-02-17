@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -6,7 +7,6 @@ import * as Yup from 'yup';
 import { TextInput, CustomButton } from './../../components';
 import { onSignIn } from '../../api/auth';
 import { authSuccess } from './../../store/actions/auth';
-import { useHistory } from 'react-router-dom';
 
 import styles from './SignIn.module.css';
 
@@ -16,21 +16,20 @@ const SignIn = props => {
     try {
       const { username, password } = values;
       const result = await onSignIn({ username, password });
-      props.onSuccess(result)
-      localStorage.setItem('jwt', result.data.jwt);
-      localStorage.setItem('userId', result.data.userId);
-      localStorage.setItem('tokenValidation', result.data.tokenValidation)
+      const data = result.data;
+      localStorage.setItem('auth', JSON.stringify(data));
+      props.onSuccess({ ...data })
       if (result.status === 200) {
         history.push('/');
       }
     } catch (error) {
       if (error.response.status === 403 || error.response.status === 404) {
-        alert("Invalid username or password.")
+        alert("Invalid username or password.");
       }
     }
   }
 
-  const SignInSchema = Yup.object().shape({
+  const signInSchema = Yup.object().shape({
     username: Yup
       .string()
       .email('Invalid email.')
@@ -42,9 +41,9 @@ const SignIn = props => {
 
   return (
     <Formik
-      initialValues={{ username: 'admin@test.com', password: 'pass' }}
+      initialValues={{ username: 'user@test.com', password: 'password' }}
       onSubmit={handleSignIn}
-      validationSchema={SignInSchema} >
+      validationSchema={signInSchema} >
       {
         () => {
           return (

@@ -1,7 +1,6 @@
 import { get } from './api';
 
-export const onFetchOrderHistory = () => {
+export const onFetchOrderHistory = token => {
   const endpoint = 'orders';
-  const token = localStorage.getItem('jwt');
   return get(endpoint, token);
 }

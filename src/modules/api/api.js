@@ -32,7 +32,7 @@ export const remove = (endpoint, body, token = null) => {
       const result = await axios.delete(`http://localhost:8080/${endpoint}/${body}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {}
       });
-      resolve(result.data)
+      resolve({ data: result.data, status: result.status })
     } catch (error) {
       reject(error)
     }

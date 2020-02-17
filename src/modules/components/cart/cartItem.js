@@ -1,8 +1,6 @@
 import React from 'react';
 import { MDBBtn } from 'mdbreact';
 
-import { onRemoveCart } from '../../api/cart';
-
 import styles from './CartItem.module.css';
 
 const CartItem = props => {
@@ -10,16 +8,12 @@ const CartItem = props => {
     style: 'currency',
     currency: 'LKR'
   })
+
   const { cart: { id, product, quantity, size } } = props;
   const { name, price } = product;
 
-  const handleRemove = async () => {
-    try {
-      await onRemoveCart(id);
-      props.onRemoveCart(id)
-    } catch (error) {
-      console.log(error.message)
-    }
+  const handleRemoveCart = () => {
+    props.onRemoveCart(id);
   }
 
   return (
@@ -35,7 +29,7 @@ const CartItem = props => {
           <div>QUANTITY: {quantity}</div>
         </div>
         <div>
-          <MDBBtn onClick={handleRemove} color='danger' size='md'>REMOVE</MDBBtn>
+          <MDBBtn onClick={handleRemoveCart} color='danger' size='md'>REMOVE</MDBBtn>
           <MDBBtn size='md'>UPDATE</MDBBtn>
         </div>
       </div>

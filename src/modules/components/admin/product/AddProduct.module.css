@@ -1,0 +1,15 @@
+.container {
+  width: 60%;
+  margin: 4% auto;
+  padding: 3% 4%;
+  box-shadow: 0 4px 8px 0 gray;
+  text-align: center;
+}
+
+.inner__container {
+  text-align: justify;
+}
+
+.title {
+  font-size: 2.5rem;
+}
