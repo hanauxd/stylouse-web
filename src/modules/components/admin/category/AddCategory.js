@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn, MDBListGroup, MDBListGroupItem } from 'mdbreact';
+import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import { MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBBtn, MDBListGroup, MDBListGroupItem } from 'mdbreact';
 
 import InputField from '../../textInput/InputField';
 import { useCustomState } from '../../../helpers/hooks';
@@ -29,7 +30,8 @@ const AddCategory = props => {
 
   const fetchCategories = async () => {
     try {
-      const result = await onFetchCategories();
+      const token = props.auth.jwt;
+      const result = await onFetchCategories(token);
       setState({
         loading: false,
         categories: [...result]
@@ -50,12 +52,12 @@ const AddCategory = props => {
 
   const handleAddCategory = async category => {
     try {
-      const result = await onAddCategory(category)
-      console.log(result)
+      const token = props.auth.jwt;
+      const result = await onAddCategory(category, token);
       setState({
         categories: [...result.data]
       })
-      toggle()
+      toggle();
     } catch (error) {
       if (error.response.status === 400) {
         setState({
@@ -124,4 +126,10 @@ const AddCategory = props => {
   )
 }
 
-export default AddCategory;
+const mapPropsToState = state => {
+  return {
+    auth: state.auth.auth
+  }
+}
+
+export default connect(mapPropsToState)(AddCategory);

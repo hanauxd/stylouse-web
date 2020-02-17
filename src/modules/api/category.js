@@ -1,12 +1,11 @@
 import { get, post } from './api';
 
 let endpoint = 'categories';
-const token = localStorage.getItem('jwt');
 
-export const onFetchCategories = () => {
+export const onFetchCategories = token => {
   return get(endpoint, token);
 }
 
-export const onAddCategory = category => {
+export const onAddCategory = (category, token) => {
   return post(endpoint, category, token);
 }

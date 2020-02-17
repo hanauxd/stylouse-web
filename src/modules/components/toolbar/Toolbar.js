@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 import {
@@ -14,24 +14,11 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem
 } from "mdbreact";
-import { useCustomState } from "../../helpers/hooks";
+
+import { logout } from '../../store/actions/auth';
 
 const Toolbar = props => {
   const history = useHistory();
-
-  // const [state, setState] = useCustomState({
-  //   isAuth: false,
-  //   userRole: '',
-  //   isOpen: false
-  // })
-
-  // useEffect(() => {
-  //   setState({
-  //     isAuth: props.isAuth,
-  //     userRole: props.userRole,
-  //     isOpen: props.isOpen
-  //   })
-  // })
 
   const handleAddProduct = () => {
     history.push('/admin/product')
@@ -41,32 +28,13 @@ const Toolbar = props => {
     history.push('/admin/category')
   }
 
-  let toolbar = (
-    <MDBCollapse id="navbarCollapse3" isOpen={props.isOpen} navbar>
-      <MDBNavbarNav left>
-        <MDBNavItem active>
-          <MDBNavLink to="/">
-            Home
-            </MDBNavLink>
-        </MDBNavItem>
-      </MDBNavbarNav>
-      <MDBNavbarNav right>
-        <MDBNavItem>
-          <MDBNavLink to="/sign-in">
-            Signin
-            </MDBNavLink>
-        </MDBNavItem>
-        <MDBNavItem>
-          <MDBNavLink to="/sign-up">
-            Signup
-            </MDBNavLink>
-        </MDBNavItem>
-      </MDBNavbarNav>
-    </MDBCollapse>
-  )
+  const handleLogout = () => {
+    localStorage.clear();
+    props.onLogout();
+  }
 
-  if (props.auth.isAuth) {
-    toolbar = (
+  const renderUnauthBar = () => {
+    return (
       <MDBCollapse id="navbarCollapse3" isOpen={props.isOpen} navbar>
         <MDBNavbarNav left>
           <MDBNavItem active>
@@ -75,18 +43,7 @@ const Toolbar = props => {
             </MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
-
         <MDBNavbarNav right>
-          <MDBNavItem>
-            <MDBNavLink to="/cart">
-              Cart <i className="fas fa-shopping-cart"></i>
-            </MDBNavLink>
-          </MDBNavItem>
-          <MDBNavItem>
-            <MDBNavLink to="/user">
-              Profile <i className="fas fa-user"></i>
-            </MDBNavLink>
-          </MDBNavItem>
           <MDBNavItem>
             <MDBNavLink to="/sign-in">
               Signin
@@ -102,17 +59,46 @@ const Toolbar = props => {
     )
   }
 
-  if (props.auth.isAuth && props.auth.userRole === 'ROLE_ADMIN') {
-    toolbar = (
+  const renderAuthBar = () => {
+    return (
       <MDBCollapse id="navbarCollapse3" isOpen={props.isOpen} navbar>
-
         <MDBNavbarNav left>
           <MDBNavItem active>
             <MDBNavLink to="/">
               Home
             </MDBNavLink>
           </MDBNavItem>
+        </MDBNavbarNav>
+        <MDBNavbarNav right>
+          <MDBNavItem>
+            <MDBNavLink to="/cart">
+              Cart <i className="fas fa-shopping-cart"></i>
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink to="/user">
+              Profile <i className="fas fa-user"></i>
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink onClick={handleLogout} to="/">
+              Signout
+            </MDBNavLink>
+          </MDBNavItem>
+        </MDBNavbarNav>
+      </MDBCollapse>
+    )
+  }
 
+  const renderAdminBar = () => {
+    return (
+      <MDBCollapse id="navbarCollapse3" isOpen={props.isOpen} navbar>
+        <MDBNavbarNav left>
+          <MDBNavItem active>
+            <MDBNavLink to="/">
+              Home
+            </MDBNavLink>
+          </MDBNavItem>
           <MDBNavItem>
             <MDBDropdown>
               <MDBDropdownToggle nav caret>
@@ -125,29 +111,10 @@ const Toolbar = props => {
             </MDBDropdown>
           </MDBNavItem>
         </MDBNavbarNav>
-
         <MDBNavbarNav right>
           <MDBNavItem>
-            <MDBNavLink to="/cart">
-              Cart <i className="fas fa-shopping-cart"></i>
-            </MDBNavLink>
-          </MDBNavItem>
-
-          <MDBNavItem>
-            <MDBNavLink to="/user">
-              Profile <i className="fas fa-user"></i>
-            </MDBNavLink>
-          </MDBNavItem>
-
-          <MDBNavItem>
-            <MDBNavLink to="/sign-in">
-              Signin
-            </MDBNavLink>
-          </MDBNavItem>
-
-          <MDBNavItem>
-            <MDBNavLink to="/sign-up">
-              Signup
+            <MDBNavLink onClick={handleLogout} to="/">
+              Signout
             </MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
@@ -155,23 +122,29 @@ const Toolbar = props => {
     )
   }
 
-  console.log('Toolbar', props.auth)
-
   return (
     <MDBNavbar color="default-color" dark expand="md">
       <MDBNavbarBrand>
         <strong className="white-text">STYLOUSE</strong>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={props.setOpen} />
-      {toolbar}
+      {!props.auth ? renderUnauthBar() : props.auth.userRole === 'ROLE_ADMIN' ? renderAdminBar() : renderAuthBar()}
     </MDBNavbar>
   )
 }
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth.auth
   }
 }
 
-export default connect(mapStateToProps)(Toolbar);
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => {
+      dispatch(logout())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

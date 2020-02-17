@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { ProductListItem } from '../index';
+import { ProductListItem, Spinner } from '../index';
 import { onGetAllProducts } from './../../api/products';
 import { useCustomState } from '../../helpers/hooks';
 
@@ -39,7 +39,7 @@ const ProductList = props => {
   }
 
   const renderLoading = () => {
-    return <div>Loading...</div>
+    return <Spinner />
   }
 
   const renderError = () => {

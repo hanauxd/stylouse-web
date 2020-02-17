@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-flow: wrap column;
+  overflow-y: scroll;
+  height: 60vh;
+  margin: 1%;
+}
+
+.styles {
+  display: flex;
+  flex-flow: wrap row;
+  margin: 0 10%;
+}
+
+.wrapper {
+  width: fit-content;
+  margin: 1%;
+}
+
+.remove__icon {
+  color: red;
+}

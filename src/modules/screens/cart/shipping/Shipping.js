@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux';
 import { MDBCol, MDBRow, MDBCard, MDBBtn } from "mdbreact";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -7,14 +8,12 @@ import { useHistory } from "react-router-dom";
 
 import styles from './Shipping.module.css';
 
-const Shipping = () => {
+const Shipping = props => {
   const history = useHistory();
 
   const handlePlaceOrder = async values => {
-    const { address, city, postalCode, paymentMethod } = values;
-    console.log('PLACE VALUES', values)
-    const result = await onPlaceOrder({ address, city, postalCode, paymentMethod })
-    console.log(result)
+    const token = props.auth.jwt;
+    await onPlaceOrder(values, token)
     history.push('/');
   }
 
@@ -81,4 +80,10 @@ const Shipping = () => {
   );
 }
 
-export default Shipping;
+const mapPropsToState = state => {
+  return {
+    auth: state.auth.auth
+  }
+}
+
+export default connect(mapPropsToState)(Shipping);

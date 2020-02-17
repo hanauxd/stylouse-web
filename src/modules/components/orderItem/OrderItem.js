@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { MDBBtn, MDBModal, MDBModalHeader, MDBModalBody } from 'mdbreact';
 
 import { useCustomState } from '../../helpers/hooks';
+import { OrderDetail } from '../index';
 
 import styles from './OrderItem.module.css';
-import { OrderDetail } from '../index';
 
 const OrderItem = props => {
   const formatter = new Intl.NumberFormat('en-US', {
@@ -33,8 +33,6 @@ const OrderItem = props => {
     })
     //eslint-disable-next-line
   }, [])
-
-  console.log(props.order)
 
   const toggle = () => {
     setState({

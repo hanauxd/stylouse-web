@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBIcon } from 'mdbreact';
+
+import { onAddToWishlist } from '../../api/wishlist';
 
 import styles from './ProductListItem.module.css';
-import { MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBIcon } from 'mdbreact';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import { onAddToWishlist } from '../../api/wishlist';
 
 const ProductListItem = props => {
   const formatter = new Intl.NumberFormat('en-US', {
@@ -23,8 +24,8 @@ const ProductListItem = props => {
 
   const handleAddToWishlist = async () => {
     try {
-      const result = await onAddToWishlist(id);
-      console.log(result)
+      const token = props.auth.jwt;
+      await onAddToWishlist(id, token);
     } catch (error) {
       if (error.response.status === 400) {
         alert("Item already exist in your wishlist.")
@@ -67,4 +68,10 @@ const ProductListItem = props => {
   )
 }
 
-export default ProductListItem;
+const mapPropsToState = state => {
+  return {
+    auth: state.auth.auth
+  }
+}
+
+export default connect(mapPropsToState)(ProductListItem);

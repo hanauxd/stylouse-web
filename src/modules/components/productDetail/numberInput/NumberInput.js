@@ -34,31 +34,4 @@ const NumberInput = props => {
   )
 }
 
-// class NumberInput extends Component {
-//   state = {
-//     value: 0
-//   }
-
-//   decrease = () => {
-//     if (this.state.value > 0) {
-//       this.setState({ value: this.state.value - 1 });
-//     }
-//   }
-
-//   increase = () => {
-//     this.setState({ value: this.state.value + 1 });
-//   }
-
-//   render() {
-//     return (
-//       <div className={styles.container}>
-//         <button onClick={this.decrease} className={styles.minus}><MDBIcon icon="minus" /></button>
-//         <input className={styles.input} value={this.state.value}
-//           type="number" />
-//         <button onClick={this.increase} className={styles.plus}><MDBIcon icon="plus" /></button>
-//       </div>
-//     );
-//   }
-// }
-
 export default NumberInput;

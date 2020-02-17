@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -6,7 +7,6 @@ import * as Yup from 'yup';
 import { TextInput, CustomButton } from './../../components';
 import { onSignIn } from '../../api/auth';
 import { authSuccess } from './../../store/actions/auth';
-import { useHistory } from 'react-router-dom';
 
 import styles from './SignIn.module.css';
 
@@ -16,15 +16,9 @@ const SignIn = props => {
     try {
       const { username, password } = values;
       const result = await onSignIn({ username, password });
-      props.onSuccess(result)
-      const jwt = result.data.jwt;
-      const userRole = result.data.userRole;
-      const isAuth = jwt !== null;
-      localStorage.setItem('jwt', jwt);
-      localStorage.setItem('userId', result.data.userId);
-      localStorage.setItem('tokenValidation', result.data.tokenValidation);
-      localStorage.setItem('userRole', userRole);
-      props.onSuccess({ username, password, isAuth, userRole })
+      const data = result.data;
+      localStorage.setItem('auth', JSON.stringify(data));
+      props.onSuccess({ ...data })
       if (result.status === 200) {
         history.push('/');
       }
@@ -35,7 +29,7 @@ const SignIn = props => {
     }
   }
 
-  const SignInSchema = Yup.object().shape({
+  const signInSchema = Yup.object().shape({
     username: Yup
       .string()
       .email('Invalid email.')
@@ -47,9 +41,9 @@ const SignIn = props => {
 
   return (
     <Formik
-      initialValues={{ username: 'admin@test.com', password: 'pass' }}
+      initialValues={{ username: 'user@test.com', password: 'password' }}
       onSubmit={handleSignIn}
-      validationSchema={SignInSchema} >
+      validationSchema={signInSchema} >
       {
         () => {
           return (

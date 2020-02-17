@@ -1,23 +1,14 @@
 import React, { useEffect } from 'react';
-import { onFetchWishlist } from '../../api/wishlist';
+import { MDBIcon } from 'mdbreact';
+
+import { Spinner } from '../index';
 import { useCustomState } from './../../helpers/hooks';
+import { onFetchWishlist, onRemoveWishlist } from '../../api/wishlist';
 import ProductListItem from '../productListItem/ProductListItem';
 
+import classes from './Wishlist.module.css';
+
 const Wishlist = props => {
-  const styles = {
-    display: "flex",
-    flexFlow: "row wrap",
-    margin: "0 10%"
-  }
-
-  const container = {
-    display: 'flex',
-    flexFlow: 'column',
-    overflowY: 'scroll',
-    height: '50vh',
-    margin: '2%'
-  }
-
   const [state, setState] = useCustomState({
     loading: true,
     error: null,
@@ -31,18 +22,27 @@ const Wishlist = props => {
 
   const fetchWishlist = async () => {
     try {
-      const result = await onFetchWishlist();
-      console.log('[WISHLIST RESULT]', result)
+      const result = await onFetchWishlist(props.token);
       setState({
         loading: false,
         wishlist: [...result]
       })
     } catch (error) {
-      console.log(error)
       setState({
         loading: false,
         error: error.message
       })
+    }
+  }
+
+  const handleRemoveWishlist = async id => {
+    try {
+      const result = await onRemoveWishlist(id, props.token);
+      setState({
+        wishlist: [...result.data]
+      })
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -51,15 +51,20 @@ const Wishlist = props => {
   }
 
   const renderLoading = () => {
-    return <h1>Loading...</h1>
+    return <Spinner />
   }
 
   const renderWishlist = () => {
     const products = state.wishlist.map(item => {
-      return <ProductListItem key={item.id} product={item.product} />
-    }
-    )
-    return <div style={container}> <div style={styles}>{products}</div></div>
+      const { id, product } = item;
+      return (
+        <div className={classes.wrapper} key={id}>
+          <MDBIcon className={classes.remove__icon} icon="times-circle" onClick={() => handleRemoveWishlist(id)} />
+          <ProductListItem product={product} />
+        </div >
+      )
+    })
+    return <div className={classes.container}><div className={classes.styles}>{products}</div></div>
   }
 
   return state.loading ? renderLoading() : state.error ? renderError() : renderWishlist()

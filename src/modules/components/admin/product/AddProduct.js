@@ -10,6 +10,8 @@ import InputField from '../../textInput/InputField';
 import CustomButton from '../../customButton/CustomButton';
 
 import styles from './AddProduct.module.css';
+import { connect } from 'react-redux';
+import { Spinner } from '../..';
 
 const AddProduct = props => {
   const optionStyle = {
@@ -35,12 +37,12 @@ const AddProduct = props => {
 
   const fetchCategories = async () => {
     try {
-      const result = await onFetchCategories();
+      const token = props.auth.jwt;
+      const result = await onFetchCategories(token);
       setState({
         loading: false,
         categories: [...result]
       })
-      console.log(result)
     } catch (error) {
       setState({
         loading: false,
@@ -50,7 +52,7 @@ const AddProduct = props => {
   }
 
   const renderLoading = () => {
-    return <h1>Loading...</h1>
+    return <Spinner />
   }
 
   const renderError = () => {
@@ -73,7 +75,8 @@ const AddProduct = props => {
         "categories": [values.category]
       }
       const files = values.files;
-      const result = await onAddProduct(product, files);
+      const token = props.auth.jwt;
+      const result = await onAddProduct(product, files, token);
       console.log(result)
     } catch (error) {
       console.log(error)
@@ -149,4 +152,10 @@ const AddProduct = props => {
 
 }
 
-export default AddProduct;
+const mapPropsToState = state => {
+  return {
+    auth: state.auth.auth
+  }
+}
+
+export default connect(mapPropsToState)(AddProduct);

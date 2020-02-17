@@ -1,7 +1,6 @@
 import { get, post } from './api';
 
 let endpoint = 'products';
-const token = localStorage.getItem('jwt');
 
 export const onGetAllProducts = () => {
   return get(endpoint);
@@ -11,7 +10,7 @@ export const onGetProduct = id => {
   return get(endpoint.concat(`/${id}`))
 }
 
-export const onAddProduct = (product, files) => {
+export const onAddProduct = (product, files, token) => {
   let formData = new FormData();
   formData.append('product', JSON.stringify(product));
   files.forEach(file => {

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import { onGetCartItems } from '../../api/cart';
 import { useCustomState } from '../../helpers/hooks';
-import { CartItem } from '../../components';
+import { CartItem, Spinner } from '../../components';
 
 import styles from './Cart.module.css';
 import { useHistory } from 'react-router-dom';
+import { onRemoveCart } from './../../api/cart';
 
 const Cart = props => {
   const formatter = new Intl.NumberFormat('en-US', {
@@ -31,14 +33,19 @@ const Cart = props => {
     //eslint-disable-next-line
   }, [])
 
-  const handleRemoveCart = id => {
-    const newCarts = state.carts.filter((value) => {
-      return value.id !== id;
-    })
-    setState({
-      carts: [...newCarts],
-    })
-    renderCartTotal(newCarts)
+  const handleRemoveCart = async id => {
+    try {
+      await onRemoveCart(id, props.auth.jwt);
+      const newCarts = state.carts.filter((value) => {
+        return value.id !== id;
+      })
+      setState({
+        carts: [...newCarts],
+      })
+      renderCartTotal(newCarts)
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 
   const renderCartTotal = result => {
@@ -57,7 +64,8 @@ const Cart = props => {
         loading: true,
         error: null,
       })
-      const result = await onGetCartItems();
+      const token = props.auth.jwt;
+      const result = await onGetCartItems(token);
       setState({
         loading: false,
         carts: [...result]
@@ -73,7 +81,7 @@ const Cart = props => {
   }
 
   const renderLoading = () => {
-    return <div>Loading...</div>
+    return <Spinner />
   }
 
   const renderError = () => {
@@ -129,4 +137,10 @@ const Cart = props => {
         : renderCartItems();
 }
 
-export default Cart;
+const mapPropsToState = state => {
+  return {
+    auth: state.auth.auth
+  }
+}
+
+export default connect(mapPropsToState)(Cart);

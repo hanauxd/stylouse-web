@@ -10,3 +10,6 @@ export { default as OrderDetail } from './orderDetail/OrderDetail';
 export { default as Wishlist } from './wishlist/Wishlist';
 export { default as AddProduct } from './admin/product/AddProduct';
 export { default as AddCategory } from './admin/category/AddCategory';
+export { default as Auth } from './auth/Auth';
+export { default as Spinner } from './ui/spinner/Spinner';
+export { default as User } from './user/User';
