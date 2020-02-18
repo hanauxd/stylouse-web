@@ -48,22 +48,22 @@ const Root = props => {
               <ProductDetail />
             </Route>
             <Route path='/cart' exact>
-              <Auth component={Cart} auth={props.auth.auth} role="ROLE_USER" />
+              <Auth component={Cart} auth={props.auth} role="ROLE_USER" />
             </Route>
             <Route path='/checkout' exact>
-              <Auth component={Shipping} auth={props.auth.auth} role="ROLE_USER" />
+              <Auth component={Shipping} auth={props.auth} role="ROLE_USER" />
             </Route>
             <Route path='/user' exact>
-              <Auth component={Profile} auth={props.auth.auth} role="ROLE_USER" />
+              <Auth component={Profile} auth={props.auth} role="ROLE_USER" />
             </Route>
             <Route path='/orders' exact>
-              <Auth component={OrderHistory} auth={props.auth.auth} role="ROLE_USER" />
+              <Auth component={OrderHistory} auth={props.auth} role="ROLE_USER" />
             </Route>
             <Route path='/admin/product' exact>
-              <Auth component={AddProduct} auth={props.auth.auth} role="ROLE_ADMIN" />
+              <Auth component={AddProduct} auth={props.auth} role="ROLE_ADMIN" />
             </Route>
             <Route path='/admin/category' exact>
-              <Auth component={AddCategory} auth={props.auth.auth} role="ROLE_ADMIN" />
+              <Auth component={AddCategory} auth={props.auth} role="ROLE_ADMIN" />
             </Route>
           </Switch>
         </div>
@@ -74,7 +74,7 @@ const Root = props => {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth.auth
   }
 }
 
