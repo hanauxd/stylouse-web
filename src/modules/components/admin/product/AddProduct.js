@@ -76,10 +76,8 @@ const AddProduct = props => {
       }
       const files = values.files;
       const token = props.auth.jwt;
-      const result = await onAddProduct(product, files, token);
-      console.log(result)
+      await onAddProduct(product, files, token);
     } catch (error) {
-      console.log(error)
       setState({
         loading: false,
         error: error.meesage
