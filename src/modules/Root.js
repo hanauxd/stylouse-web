@@ -9,18 +9,23 @@ import {
   ProductDetail,
   Cart,
   Profile,
-  OrderHistory
+  OrderHistory,
+  Shipping
 } from './screens';
-import { Toolbar, Auth, Spinner } from './components';
+import {
+  Toolbar,
+  Auth,
+  Spinner,
+  AddProduct,
+  AddCategory,
+  EditProduct
+} from './components';
 import { authSuccess } from './store/actions/auth';
-import Shipping from './screens/cart/shipping/Shipping';
-import AddProduct from './components/admin/product/AddProduct';
-import AddCategory from './components/admin/category/AddCategory';
 
-import styles from './Root.module.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+import styles from './Root.module.css';
 
 const Root = props => {
   const [isOpen, setOpen] = useState(false);
@@ -74,6 +79,13 @@ const Root = props => {
             <Route path='/admin/product' exact>
               <Auth
                 component={AddProduct}
+                auth={props.auth}
+                role='ROLE_ADMIN'
+              />
+            </Route>
+            <Route path='/admin/product/edit/:id' exact>
+              <Auth
+                component={EditProduct}
                 auth={props.auth}
                 role='ROLE_ADMIN'
               />

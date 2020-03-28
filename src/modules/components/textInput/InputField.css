@@ -1,0 +1,16 @@
+.md-form {
+  margin-top: 1rem !important;
+  margin-bottom: 0rem !important;
+}
+
+.md-form
+  > input[type]:-webkit-autofill:not(.browser-default):not([type='search'])
+  + label,
+.md-form > input[type='time']:not(.browser-default) + label {
+  transform: translateY(-14px) !important;
+  transform-origin: 0 8;
+}
+
+.md-form label.active {
+  transform: translateY(-14px) scale(0.8) !important;
+}
