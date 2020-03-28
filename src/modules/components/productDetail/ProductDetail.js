@@ -47,6 +47,7 @@ const ProductDetail = props => {
         const { size, quantity } = values;
         const token = props.auth.jwt;
         await onAddToCart({ productId: id, size, quantity }, token);
+        history.push('/cart');
       } catch (error) {
         console.log(error.message);
       }
@@ -60,6 +61,7 @@ const ProductDetail = props => {
       try {
         const token = props.auth.jwt;
         await onAddToWishlist(id, token);
+        history.push('/');
       } catch (error) {
         const errMsg = JSON.parse(error.request.response);
         alert(errMsg.message);

@@ -55,29 +55,33 @@ const Wishlist = props => {
   };
 
   const renderWishlist = () => {
-    const products = state.wishlist.map(item => {
-      const { id, product } = item;
+    if (state.wishlist.length) {
+      const products = state.wishlist.map(item => {
+        const { id, product } = item;
+        return (
+          <div className={classes.wrapper} key={id}>
+            <MDBBtn
+              className={classes.remove__icon}
+              size='sm'
+              gradient='purple'
+              onClick={() => {
+                handleRemoveWishlist(id);
+              }}
+            >
+              <MDBIcon icon='times' size='1x' />
+            </MDBBtn>
+            <ProductListItem product={product} />
+          </div>
+        );
+      });
       return (
-        <div className={classes.wrapper} key={id}>
-          <MDBBtn
-            className={classes.remove__icon}
-            size='sm'
-            gradient='purple'
-            onClick={() => {
-              handleRemoveWishlist(id);
-            }}
-          >
-            <MDBIcon icon='times' size='1x' />
-          </MDBBtn>
-          <ProductListItem product={product} />
+        <div className={classes.container}>
+          <div className={classes.styles}>{products}</div>
         </div>
       );
-    });
-    return (
-      <div className={classes.container}>
-        <div className={classes.styles}>{products}</div>
-      </div>
-    );
+    } else {
+      return <div className={classes.empty__div}>WISHLIST IS EMPTY</div>;
+    }
   };
 
   return state.loading
