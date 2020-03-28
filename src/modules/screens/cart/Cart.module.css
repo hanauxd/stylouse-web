@@ -15,15 +15,13 @@
 
 .cart__div {
   width: 50%;
-  padding: 5%;
 }
 
 .cart__inner__div {
-  box-shadow: 0 4px 8px 0 grey;
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 8% 5%;
+  padding: 10% 0%;
 }
 
 .cart__inner__div button {
@@ -37,13 +35,13 @@
 
 .cart__inner__div > h2 {
   text-align: center;
-  font-size: xx-large;
+  font-size: x-large;
   padding: 10px;
   border-bottom: 1px solid #d2d2d2;
 }
 
 .cart__inner__div > div > div > h2 {
-  font-size: x-large;
+  font-size: larger;
 }
 
 .cart__inner__div > div {
@@ -58,7 +56,12 @@
 }
 
 .cart__inner__div > div > div > h5 {
-  font-size: large;
+  font-size: medium;
+}
+
+.separator {
+  border-right: 1px solid #d2d2d2;
+  margin: 3%;
 }
 
 .empty__div {
@@ -94,6 +97,7 @@
 
   .cart__div {
     width: 100%;
+    padding: 20px;
   }
 }
 

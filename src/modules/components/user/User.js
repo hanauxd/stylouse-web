@@ -10,11 +10,11 @@ const User = props => {
   const [state, setState] = useCustomState({
     loading: true,
     error: null,
-    user: null,
+    user: null
   });
 
   useEffect(() => {
-    fetchUser()
+    fetchUser();
     //eslint-disable-next-line
   }, []);
 
@@ -23,23 +23,23 @@ const User = props => {
       const result = await onViewProfile(props.token);
       setState({
         loading: false,
-        user: { ...result },
-      })
+        user: { ...result }
+      });
     } catch (error) {
       setState({
         loading: false,
         error: error.message
-      })
+      });
     }
-  }
+  };
 
   const renderLoading = () => {
-    return <Spinner />
-  }
+    return <Spinner />;
+  };
 
   const renderError = () => {
-    return <h5>{state.error}</h5>
-  }
+    return <h5>{state.error}</h5>;
+  };
 
   const renderUser = () => {
     return (
@@ -48,27 +48,52 @@ const User = props => {
         <hr />
         <MDBRow>
           <MDBCol>
-            <MDBInput label="First Name" type="text" hint={state.user.firstName} className="form-control mb-4" />
+            <MDBInput
+              label='First Name'
+              type='text'
+              hint={state.user.firstName}
+              className='form-control mb-4'
+            />
           </MDBCol>
           <MDBCol>
-            <MDBInput label="Last Name" type="text" hint={state.user.lastName} className="form-control mb-4" />
+            <MDBInput
+              label='Last Name'
+              type='text'
+              hint={state.user.lastName}
+              className='form-control mb-4'
+            />
           </MDBCol>
         </MDBRow>
         <MDBRow>
           <MDBCol>
-            <MDBInput label="Phone" type="text" hint={state.user.phone} className="form-control mb-4" />
+            <MDBInput
+              label='Phone'
+              type='text'
+              hint={state.user.phone}
+              className='form-control mb-4'
+            />
           </MDBCol>
         </MDBRow>
         <MDBRow>
           <MDBCol>
-            <MDBInput disabled label="Email Address" type="email" hint={state.user.email} className="form-control mb-4" />
+            <MDBInput
+              disabled
+              label='Email Address'
+              type='email'
+              hint={state.user.email}
+              className='form-control mb-4'
+            />
           </MDBCol>
         </MDBRow>
       </div>
-    )
-  }
+    );
+  };
 
-  return state.loading ? renderLoading() : state.error ? renderError() : renderUser();
-}
+  return state.loading
+    ? renderLoading()
+    : state.error
+    ? renderError()
+    : renderUser();
+};
 
 export default User;

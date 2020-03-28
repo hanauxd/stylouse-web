@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { MDBCol, MDBRow, MDBCard, MDBBtn } from 'mdbreact';
+import { MDBCol, MDBRow, MDBBtn } from 'mdbreact';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { onPlaceOrder } from '../../../api/cart';
@@ -24,7 +24,7 @@ const Shipping = props => {
   });
 
   return (
-    <MDBCard className={styles.container}>
+    <div className={styles.container}>
       <h2 style={{ textAlign: 'center' }}>Billing</h2>
       <MDBCol>
         <Formik
@@ -116,7 +116,7 @@ const Shipping = props => {
           }}
         </Formik>
       </MDBCol>
-    </MDBCard>
+    </div>
   );
 };
 

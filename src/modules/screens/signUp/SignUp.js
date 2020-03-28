@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import cogoToast from 'cogo-toast';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -27,7 +28,7 @@ const SignUp = props => {
       }
     } catch (error) {
       if (error.response.status === 400) {
-        alert('Email already exist.');
+        cogoToast.error('Email already exist.');
       }
     }
   };

@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import * as Yup from 'yup';
-
-import { ProductColor, ProductSizeList, NumberInput } from './index';
-import { MDBBtn } from 'mdbreact';
-import { Formik } from 'formik';
-import { onAddToCart } from './../../api/cart';
-
-import styles from './ProductDetail.module.css';
-import { onAddToWishlist } from '../../api/wishlist';
 import { useHistory } from 'react-router-dom';
+import { Carousel } from 'react-responsive-carousel';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
+import { MDBBtn } from 'mdbreact';
+
+import { onAddToCart } from './../../api/cart';
+import { ProductColor, ProductSizeList, NumberInput } from './index';
+import { onAddToWishlist } from '../../api/wishlist';
+
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import styles from './ProductDetail.module.css';
 
 const ProductDetail = props => {
   const history = useHistory();
@@ -64,7 +65,7 @@ const ProductDetail = props => {
         history.push('/');
       } catch (error) {
         const errMsg = JSON.parse(error.request.response);
-        alert(errMsg.message);
+        cogoToast.error(errMsg.message);
       }
     } else {
       history.push('/sign-in');

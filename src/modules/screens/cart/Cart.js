@@ -109,6 +109,7 @@ const Cart = props => {
     return (
       <div className={styles.container}>
         <div className={styles.items__div}>{cartItems}</div>
+        <div className={styles.separator} />
         <div className={styles.cart__div}>
           <div className={styles.cart__inner__div}>
             <h2>ORDER SUMMARY</h2>

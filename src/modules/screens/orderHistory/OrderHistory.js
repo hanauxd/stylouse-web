@@ -50,6 +50,12 @@ const OrderHistory = props => {
     ));
     return (
       <div style={styles}>
+        <span
+          style={{ fontSize: 'larger', textAlign: 'center', display: 'block' }}
+        >
+          Order History
+        </span>
+        <hr style={{ width: '100%', marginBottom: '0' }} />
         <div>{orderItems}</div>
       </div>
     );
