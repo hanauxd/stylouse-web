@@ -73,7 +73,7 @@ const Toolbar = props => {
             </MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>
-            <MDBNavLink onClick={handleLogout} to='/'>
+            <MDBNavLink onClick={handleLogout} to='/sign-in'>
               Signout
             </MDBNavLink>
           </MDBNavItem>
@@ -107,7 +107,7 @@ const Toolbar = props => {
         </MDBNavbarNav>
         <MDBNavbarNav right>
           <MDBNavItem>
-            <MDBNavLink onClick={handleLogout} to='/'>
+            <MDBNavLink onClick={handleLogout} to='/sign-in'>
               Signout
             </MDBNavLink>
           </MDBNavItem>
