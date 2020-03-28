@@ -6,7 +6,11 @@ import { onGetProduct } from '../../api/products';
 import { ProductDetail, Spinner } from '../../components';
 
 const Product = props => {
-  const { match: { params: { id } } } = props;
+  const {
+    match: {
+      params: { id }
+    }
+  } = props;
 
   const [state, setState] = useCustomState({
     product: null,
@@ -15,9 +19,9 @@ const Product = props => {
   });
 
   useEffect(() => {
-    loadProductFromApi()
+    loadProductFromApi();
     //eslint-disable-next-line
-  }, [])
+  }, []);
 
   const loadProductFromApi = async () => {
     try {
@@ -25,28 +29,32 @@ const Product = props => {
       setState({
         loading: false,
         product: { ...result }
-      })
+      });
     } catch (error) {
       setState({
         loading: false,
         error: error.message
-      })
+      });
     }
-  }
+  };
 
   const renderLoading = () => {
-    return <Spinner />
-  }
+    return <Spinner />;
+  };
 
   const renderError = () => {
-    return <div>{state.error}</div>
-  }
+    return <div>{state.error}</div>;
+  };
 
   const renderProduct = () => {
-    return <ProductDetail product={state.product} />
-  }
+    return <ProductDetail product={state.product} />;
+  };
 
-  return state.loading ? renderLoading() : state.error ? renderError() : renderProduct();
-}
+  return state.loading
+    ? renderLoading()
+    : state.error
+    ? renderError()
+    : renderProduct();
+};
 
 export default withRouter(Product);

@@ -13,6 +13,14 @@
   font-size: 1.8rem;
 }
 
+.container label {
+  margin-top: 8px;
+}
+
+.button {
+  margin-top: 8px;
+}
+
 @media (max-width: 1000px) {
   .container {
     width: 80%;

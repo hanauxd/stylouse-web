@@ -4,18 +4,23 @@ import { Field, ErrorMessage } from 'formik';
 import styles from './TextInput.module.css';
 
 const TextInput = props => {
-  const { type, placeholder, name, containerStyle } = props;
+  const { type, placeholder, name } = props;
   return (
-    <div >
-      <div className={styles.root__div} style={containerStyle}>
-        <Field name={name} type={type} placeholder={placeholder} className='form-control mb-4' required={props.required} />
+    <div>
+      <div>
+        <Field
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          className='form-control'
+          required={props.required}
+        />
       </div>
       <ErrorMessage name={name}>
-        {
-          message => <div style={{ color: 'red' }}>{message}</div>
-        }
-      </ErrorMessage >
-    </div>)
-}
+        {message => <span className={styles.error}>{message}</span>}
+      </ErrorMessage>
+    </div>
+  );
+};
 
 export default TextInput;

@@ -22,18 +22,18 @@ const AddProduct = props => {
     color: '#676767',
     fontWeight: '350',
     paddingLeft: '0'
-  }
+  };
 
   const [state, setState] = useCustomState({
     loading: true,
     error: null,
     categories: []
-  })
+  });
 
   useEffect(() => {
     fetchCategories();
     //eslint-disable-next-line
-  }, [])
+  }, []);
 
   const fetchCategories = async () => {
     try {
@@ -42,28 +42,30 @@ const AddProduct = props => {
       setState({
         loading: false,
         categories: [...result]
-      })
+      });
     } catch (error) {
       setState({
         loading: false,
         error: error.message
-      })
+      });
     }
-  }
+  };
 
   const renderLoading = () => {
-    return <Spinner />
-  }
+    return <Spinner />;
+  };
 
   const renderError = () => {
-    return <h1>{state.error}</h1>
-  }
+    return <h1>{state.error}</h1>;
+  };
 
   const categories = state.categories.map(cate => {
     return (
-      <option key={cate.id} value={cate.category} >{cate.category}</option>
-    )
-  })
+      <option key={cate.id} value={cate.category}>
+        {cate.category}
+      </option>
+    );
+  });
 
   const handleAddProduct = async values => {
     try {
@@ -72,8 +74,8 @@ const AddProduct = props => {
         description: values.description,
         quantity: values.quantity,
         price: values.price,
-        "categories": [values.category]
-      }
+        categories: [values.category]
+      };
       const files = values.files;
       const token = props.auth.jwt;
       await onAddProduct(product, files, token);
@@ -81,9 +83,9 @@ const AddProduct = props => {
       setState({
         loading: false,
         error: error.meesage
-      })
+      });
     }
-  }
+  };
 
   const initialValues = {
     name: '',
@@ -91,8 +93,8 @@ const AddProduct = props => {
     quantity: '',
     price: '',
     category: '',
-    files: [],
-  }
+    files: []
+  };
 
   const addProductSchema = Yup.object().shape({
     name: Yup.string().required('Product name is required'),
@@ -101,7 +103,7 @@ const AddProduct = props => {
     price: Yup.string().required('Price is required.'),
     category: Yup.string().required('Select a category.'),
     files: Yup.array().required('File(s) required.')
-  })
+  });
 
   const renderAddProduct = () => (
     <div className={styles.container}>
@@ -112,48 +114,82 @@ const AddProduct = props => {
           validationSchema={addProductSchema}
           onSubmit={(values, errors) => handleAddProduct(values, errors)}
         >
-          {
-            ({
-              values,
-              handleChange,
-              handleBlur,
-            }) => (
-                <Form>
-                  <InputField label="Title" type="text" name='name' onChange={handleChange} onBlur={handleBlur} values={values.name} />
-                  <InputField label="Description" type="text" name='description' onChange={handleChange} onBlur={handleBlur} values={values.name} />
-                  <InputField label="Quantity" type="number" name='quantity' onChange={handleChange} onBlur={handleBlur} values={values.name} />
-                  <InputField label="Price" type="number" name='price' onChange={handleChange} onBlur={handleBlur} values={values.name} />
-                  <select style={optionStyle} name="category" onChange={handleChange} onBlur={handleBlur} className="browser-default custom-select">
-                    <option value="">Select a category</option>
-                    {categories}
-                  </select>
-                  <ErrorMessage name='category'>
-                    {
-                      message => <div style={{ color: 'red' }}>{message}</div>
-                    }
-                  </ErrorMessage >
-                  <div style={{ margin: '3% 0' }}>
-                    <FileForm>
-                      <DropZone lable='Upload images' name='files' placeholder="Browse or drag and drop the images here." withClearButton />
-                    </FileForm>
-                  </div>
-                  <CustomButton color='elegant' type='submit' text='SAVE' />
-                </Form>
-              )
-          }
+          {({ values, handleChange, handleBlur }) => (
+            <Form>
+              <InputField
+                label='Title'
+                type='text'
+                name='name'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                values={values.name}
+              />
+              <InputField
+                label='Description'
+                type='text'
+                name='description'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                values={values.name}
+              />
+              <InputField
+                label='Quantity'
+                type='number'
+                name='quantity'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                values={values.name}
+              />
+              <InputField
+                label='Price'
+                type='number'
+                name='price'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                values={values.name}
+              />
+              <select
+                style={optionStyle}
+                name='category'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className='browser-default custom-select'
+              >
+                <option value=''>Select a category</option>
+                {categories}
+              </select>
+              <ErrorMessage name='category'>
+                {message => <div style={{ color: 'red' }}>{message}</div>}
+              </ErrorMessage>
+              <div style={{ margin: '3% 0' }}>
+                <FileForm>
+                  <DropZone
+                    lable='Upload images'
+                    name='files'
+                    placeholder='Browse or drag and drop the images here.'
+                    withClearButton
+                  />
+                </FileForm>
+              </div>
+              <CustomButton gradient='purple' type='submit' text='SAVE' />
+            </Form>
+          )}
         </Formik>
       </div>
     </div>
-  )
+  );
 
-  return state.loading ? renderLoading() : state.error ? renderError() : renderAddProduct();
-
-}
+  return state.loading
+    ? renderLoading()
+    : state.error
+    ? renderError()
+    : renderAddProduct();
+};
 
 const mapPropsToState = state => {
   return {
     auth: state.auth.auth
-  }
-}
+  };
+};
 
 export default connect(mapPropsToState)(AddProduct);

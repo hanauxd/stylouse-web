@@ -30,8 +30,19 @@
 
 .properties__container {
   width: 95%;
-  height: 100%;
-  padding: 15px;
+  padding-left: 15px;
+}
+
+.properties__container > div > h4 {
+  font-size: larger;
+}
+
+.properties__container > div {
+  font-size: small;
+}
+
+.button__container {
+  padding-right: 15px;
 }
 
 @media (max-width: 610px) {
