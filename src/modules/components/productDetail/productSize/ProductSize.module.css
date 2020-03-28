@@ -2,24 +2,26 @@
   display: flex;
   width: fit-content;
   margin: 2% 0;
+  font-size: small;
 }
 
 .productSize {
   border: 1px solid #a9a9a9;
   padding: 5% 0;
   margin: 0 8px 0 0;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   text-align: center;
 }
 
 .productSizeSelected {
-  border: 1px solid black;
+  border: 1px solid #9933cc;
   padding: 5%;
-  margin: 0 5px;
-  width: 50px;
-  height: 50px;
+  margin: 0 8px 0 0;
+  width: 40px;
+  height: 40px;
   text-align: center;
+  color: #9933cc;
 }
 
 .productSize:hover {

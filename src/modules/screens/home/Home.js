@@ -2,9 +2,7 @@ import React from 'react';
 import { ProductList } from '../../components';
 
 const Home = props => {
-  return (
-    <ProductList />
-  )
-}
+  return <ProductList />;
+};
 
 export default Home;

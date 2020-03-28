@@ -13,7 +13,7 @@
 
 .button {
   border: 1px solid #dedede;
-  background-color: black;
+  background-color: #9933cc;
   color: white;
   text-align: center;
   padding: 10px;
@@ -35,5 +35,5 @@
 }
 
 .button__div:disabled .button {
-  background-color: gray;
+  background-color: #e1bee7;
 }

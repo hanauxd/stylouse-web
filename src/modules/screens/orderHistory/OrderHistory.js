@@ -7,16 +7,14 @@ const OrderHistory = props => {
   const styles = {
     display: 'flex',
     flexFlow: 'column',
-    overflowY: 'scroll',
-    height: '50vh',
-    margin: '2%'
-  }
+    padding: '2%'
+  };
 
   const [state, setState] = useCustomState({
     orders: [],
     error: null,
     loading: true
-  })
+  });
 
   useEffect(() => {
     fetchOrderHistory();
@@ -29,35 +27,39 @@ const OrderHistory = props => {
       setState({
         loading: false,
         orders: [...result]
-      })
+      });
     } catch (error) {
       setState({
         loading: false,
         error: error.message
-      })
+      });
     }
-  }
+  };
 
   const renderLoading = () => {
-    return <Spinner />
-  }
+    return <Spinner />;
+  };
 
   const renderError = () => {
-    return <h3>{state.error}</h3>
-  }
+    return <h3>{state.error}</h3>;
+  };
 
   const renderOrderItems = () => {
     const orderItems = state.orders.map(item => (
       <OrderItem key={item.id} order={item} />
-    ))
+    ));
     return (
       <div style={styles}>
         <div>{orderItems}</div>
       </div>
-    )
-  }
+    );
+  };
 
-  return state.loading ? renderLoading() : state.error ? renderError() : renderOrderItems();
-}
+  return state.loading
+    ? renderLoading()
+    : state.error
+    ? renderError()
+    : renderOrderItems();
+};
 
 export default OrderHistory;
