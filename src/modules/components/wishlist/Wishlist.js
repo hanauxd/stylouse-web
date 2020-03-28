@@ -76,6 +76,8 @@ const Wishlist = props => {
       });
       return (
         <div className={classes.container}>
+          <span>Wishlist</span>
+          <hr />
           <div className={classes.styles}>{products}</div>
         </div>
       );

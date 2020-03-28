@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { MDBBtn, MDBModal, MDBModalHeader, MDBModalBody } from 'mdbreact';
 
 import { useCustomState } from '../../helpers/hooks';
+import { formatDate } from '../../helpers/DateFormatter';
 import { OrderDetail } from '../index';
 
 import styles from './OrderItem.module.css';
@@ -44,28 +45,22 @@ const OrderItem = props => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.date__container}>
+        <p>DATE</p>
+        <span>{formatDate(date)}</span>
+      </div>
+      <div className={styles.separator} />
       <div className={styles.inner__container}>
-        <span className={styles.tag}>CONFIRMED</span>
-        <span>
-          Number of Items: <strong>{state.itemsQty}</strong>
-        </span>
-        <span>
-          Date: <strong>{date}</strong>
-        </span>
+        <p>STATUS</p>
+        <span>CONFIRMED</span>
+      </div>
+      <div className={styles.separator} />
+      <div className={styles.inner__container}>
+        <p>TOTAL</p>
+        <span>{formatter.format(state.total)}</span>
       </div>
       <div className={styles.inner__container}>
-        <span>Total:</span>
-        <span>
-          <h5>
-            <strong>{formatter.format(state.total)}</strong>
-          </h5>
-        </span>
-        <MDBBtn
-          onClick={toggle}
-          style={{ margin: '0' }}
-          gradient='purple'
-          size='sm'
-        >
+        <MDBBtn onClick={toggle} style={{ margin: '0' }} gradient='purple'>
           VIEW
         </MDBBtn>
 

@@ -19,3 +19,8 @@ export const onAddProduct = (product, files, token) => {
   });
   return post(endpoint, formData, token);
 };
+
+export const onUpdateProduct = (product, token) => {
+  const endpoint = `products/${product.id}`;
+  return post(endpoint, product, token);
+};

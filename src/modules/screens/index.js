@@ -5,3 +5,4 @@ export { default as ProductDetail } from './productDetail/ProductDetail';
 export { default as Cart } from './cart/Cart';
 export { default as Profile } from './profile/Profile';
 export { default as OrderHistory } from './orderHistory/OrderHistory';
+export { default as Shipping } from './cart/shipping/Shipping';

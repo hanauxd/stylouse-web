@@ -1,17 +1,13 @@
 .container {
-  /* border: 1px solid red; */
   width: 100%;
-  max-width: 1000px;
-  margin: 5% auto;
+  max-width: 1030px;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 8px 0 gray;
   padding: 2%;
-  /* align-items: center; */
 }
 
 .nav__div {
-  /* border: 1px solid blue; */
   height: 100%;
   padding: 10px;
   display: flex;
@@ -21,13 +17,12 @@
 
 .nav__div span {
   text-align: center;
-  margin: 5% 0;
+  margin: 2% 0;
   font-size: 1.5rem;
   display: block;
 }
 
 .content__div {
-  /* border: 1px solid red;/ */
   width: 100%;
 }
 

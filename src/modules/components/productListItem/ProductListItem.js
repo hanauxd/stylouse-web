@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import cogoToast from 'cogo-toast';
 import {
   MDBCard,
   MDBCardImage,
@@ -27,7 +28,9 @@ const ProductListItem = props => {
   const category = props.product.productCategories[0].category.category;
 
   const handleViewProduct = () => {
-    history.push(`/products/${id}`);
+    props.auth && props.auth.userRole === 'ROLE_ADMIN'
+      ? history.push(`/admin/product/edit/${id}`)
+      : history.push(`/products/${id}`);
   };
 
   const handleAddToWishlist = async () => {
@@ -37,7 +40,7 @@ const ProductListItem = props => {
         await onAddToWishlist(id, token);
       } catch (error) {
         const errMsg = JSON.parse(error.request.response);
-        alert(errMsg.message);
+        cogoToast.error(errMsg.message);
       }
     } else {
       history.push('/sign-in');
@@ -59,7 +62,14 @@ const ProductListItem = props => {
           <h5 className='grey-text'>{category}</h5>
           <MDBCardTitle>
             <strong>
-              <Link style={{ color: 'purple' }} to={`/products/${id}`}>
+              <Link
+                style={{ color: 'purple' }}
+                to={
+                  props.auth && props.auth.userRole === 'ROLE_ADMIN'
+                    ? `/admin/product/edit/${id}`
+                    : `/products/${id}`
+                }
+              >
                 {name}
               </Link>
             </strong>
@@ -69,18 +79,20 @@ const ProductListItem = props => {
             <span className='float-left font-weight-bold'>
               <strong>{formatter.format(price)}</strong>
             </span>
-            <span className='float-right'>
-              <MDBIcon
-                className={styles.icon}
-                icon='fa fa-heart ml-3'
-                onClick={handleAddToWishlist}
-              />
-              <MDBIcon
-                className={styles.icon}
-                icon='fa fa-shopping-cart ml-3'
-                onClick={handleViewProduct}
-              />
-            </span>
+            {props.auth && props.auth.userRole === 'ROLE_ADMIN' ? null : (
+              <span className='float-right'>
+                <MDBIcon
+                  className={styles.icon}
+                  icon='fa fa-heart ml-3'
+                  onClick={handleAddToWishlist}
+                />
+                <MDBIcon
+                  className={styles.icon}
+                  icon='fa fa-shopping-cart ml-3'
+                  onClick={handleViewProduct}
+                />
+              </span>
+            )}
           </div>
         </MDBCardBody>
       </MDBCard>

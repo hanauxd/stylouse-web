@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Form as FileForm, DropZone } from 'react-formik-ui';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { useCustomState } from './../../../helpers/hooks';
-import { onFetchCategories } from './../../../api/category';
-import { onAddProduct } from '../../../api/products';
-import InputField from '../../textInput/InputField';
-import CustomButton from '../../customButton/CustomButton';
+import { useCustomState } from '../../../../helpers/hooks';
+import { onFetchCategories } from '../../../../api/category';
+import { onAddProduct } from '../../../../api/products';
+import { Spinner, CustomButton, InputField } from '../../../index';
 
 import styles from './AddProduct.module.css';
-import { connect } from 'react-redux';
-import { Spinner } from '../..';
 
 const AddProduct = props => {
   const optionStyle = {
@@ -130,7 +128,7 @@ const AddProduct = props => {
                 name='description'
                 onChange={handleChange}
                 onBlur={handleBlur}
-                values={values.name}
+                values={values.description}
               />
               <InputField
                 label='Quantity'
@@ -138,7 +136,7 @@ const AddProduct = props => {
                 name='quantity'
                 onChange={handleChange}
                 onBlur={handleBlur}
-                values={values.name}
+                values={values.quantity}
               />
               <InputField
                 label='Price'
@@ -146,7 +144,7 @@ const AddProduct = props => {
                 name='price'
                 onChange={handleChange}
                 onBlur={handleBlur}
-                values={values.name}
+                values={values.price}
               />
               <select
                 style={optionStyle}
@@ -159,7 +157,17 @@ const AddProduct = props => {
                 {categories}
               </select>
               <ErrorMessage name='category'>
-                {message => <div style={{ color: 'red' }}>{message}</div>}
+                {message => (
+                  <div
+                    style={{
+                      color: 'red',
+                      fontSize: '0.6rem',
+                      marginBottom: '8px'
+                    }}
+                  >
+                    {message}
+                  </div>
+                )}
               </ErrorMessage>
               <div style={{ margin: '3% 0' }}>
                 <FileForm>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import cogoToast from 'cogo-toast';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -24,7 +25,7 @@ const SignIn = props => {
       }
     } catch (error) {
       if (error.response.status === 403 || error.response.status === 404) {
-        alert('Invalid username or password.');
+        cogoToast.error('Invalid username or password.');
       }
     }
   };

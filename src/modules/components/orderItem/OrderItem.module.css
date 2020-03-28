@@ -1,28 +1,36 @@
 .container {
-  border: 1px solid #d2d2d2;
+  border-bottom: 1px solid #d2d2d2;
   width: 100%;
-  height: 150px;
-  padding: 2%;
+  padding: 1% 2%;
   display: flex;
   margin: 2% auto;
 }
 
-.inner__container {
-  /* border: 1px solid blue; */
-  width: 50%;
-  margin: 1%;
+.date__container {
+  flex: 2;
   display: flex;
-  flex-flow: wrap column;
+  flex-direction: column;
+}
+
+.inner__container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.inner__container p,
+.date__container p {
+  font-size: 0.6rem;
+  margin: 0;
 }
 
 .inner__container span {
-  margin: auto 0;
+  font-size: 0.9rem;
 }
 
-.tag {
-  width: fit-content;
-  font-weight: 450;
-  color: purple;
+.separator {
+  border-right: 1px solid #d2d2d2;
+  margin: 0% 2%;
 }
 
 @media (max-width: 650px) {
