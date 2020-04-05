@@ -1,10 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { MDBCol, MDBRow, MDBBtn } from 'mdbreact';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
+
 import { onPlaceOrder } from '../../../api/cart';
-import { useHistory } from 'react-router-dom';
 
 import styles from './Shipping.module.css';
 
@@ -12,9 +14,17 @@ const Shipping = props => {
   const history = useHistory();
 
   const handlePlaceOrder = async values => {
-    const token = props.auth.jwt;
-    await onPlaceOrder(values, token);
-    history.push('/');
+    const { hide } = cogoToast.loading('Placing the order.', { hideAfter: 0 });
+    try {
+      const token = props.auth.jwt;
+      await onPlaceOrder(values, token);
+      hide();
+      cogoToast.success('Order placed successfully.');
+      history.push('/');
+    } catch (error) {
+      hide();
+      cogoToast.error('Failed to place the order.');
+    }
   };
 
   const shippingSchema = Yup.object().shape({

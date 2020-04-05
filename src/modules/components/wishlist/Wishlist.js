@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { MDBIcon, MDBBtn } from 'mdbreact';
+import cogoToast from 'cogo-toast';
 
 import { Spinner } from '../index';
 import { useCustomState } from './../../helpers/hooks';
@@ -37,17 +38,20 @@ const Wishlist = props => {
 
   const handleRemoveWishlist = async id => {
     try {
+      const { hide } = cogoToast.loading('Removing item.', { hideAfter: 0 });
       const result = await onRemoveWishlist(id, props.token);
+      hide();
+      cogoToast.success('Item removed successfully.');
       setState({
         wishlist: [...result.data]
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      cogoToast.error('Item remove failed.');
     }
   };
 
   const renderError = () => {
-    return <h1>{state.error}</h1>;
+    return <h5>{state.error}</h5>;
   };
 
   const renderLoading = () => {

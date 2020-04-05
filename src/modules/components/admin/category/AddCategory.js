@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 import {
   MDBModal,
   MDBModalHeader,
@@ -18,9 +19,7 @@ import { onFetchCategories, onAddCategory } from './../../../api/category';
 
 const AddCategory = props => {
   const [state, setState] = useCustomState({
-    loading: true,
     error: null,
-    categoryError: null,
     modal: false,
     categories: []
   });
@@ -37,17 +36,20 @@ const AddCategory = props => {
   };
 
   const fetchCategories = async () => {
+    const { hide } = cogoToast.loading('Fethching categories.', {
+      hideAfter: 0
+    });
     try {
       const token = props.auth.jwt;
       const result = await onFetchCategories(token);
+      hide();
       setState({
-        loading: false,
         categories: [...result]
       });
     } catch (error) {
-      console.log('[ADD CATEGORY ERROR]', error.request);
+      hide();
+      cogoToast.error('Failed to fetch categories.');
       setState({
-        loading: false,
         error: error.message
       });
     }
@@ -58,19 +60,19 @@ const AddCategory = props => {
   });
 
   const handleAddCategory = async category => {
+    const { hide } = cogoToast.loading('Adding category.', { hideAfter: 0 });
     try {
       const token = props.auth.jwt;
       const result = await onAddCategory(category, token);
+      hide();
+      cogoToast.success('Category added successfully.');
       setState({
         categories: [...result.data]
       });
       toggle();
     } catch (error) {
-      if (error.response.status === 400) {
-        setState({
-          categoryError: 'Category already exist.'
-        });
-      }
+      hide();
+      cogoToast.error('Failed to add category.');
     }
   };
 
@@ -96,14 +98,14 @@ const AddCategory = props => {
           width: '0'
         }}
       >
-        <Formik
-          initialValues={initialValues}
-          validationSchema={addCategorySchema}
-          onSubmit={handleAddCategory}
-        >
-          {({ values, handleChange, handleBlur }) => (
-            <Form>
-              <MDBModal isOpen={state.modal} toggle={toggle} centered>
+        <MDBModal isOpen={state.modal} toggle={toggle} centered>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={addCategorySchema}
+            onSubmit={handleAddCategory}
+          >
+            {({ values, handleChange, handleBlur }) => (
+              <Form>
                 <MDBModalHeader toggle={toggle}>
                   ADD NEW CATEGORY
                 </MDBModalHeader>
@@ -116,17 +118,16 @@ const AddCategory = props => {
                     onBlur={handleBlur}
                     values={values.category}
                   />
-                  <div style={{ color: 'red' }}>{state.categoryError}</div>
                 </MDBModalBody>
                 <MDBModalFooter>
                   <MDBBtn type='submit' gradient='purple'>
                     SAVE
                   </MDBBtn>
                 </MDBModalFooter>
-              </MDBModal>
-            </Form>
-          )}
-        </Formik>
+              </Form>
+            )}
+          </Formik>
+        </MDBModal>
       </div>
       <div
         style={{

@@ -10,6 +10,7 @@ import { MDBBtn } from 'mdbreact';
 import { onAddToCart } from './../../api/cart';
 import { ProductColor, ProductSizeList, NumberInput } from './index';
 import { onAddToWishlist } from '../../api/wishlist';
+import { getProductImageUrl } from '../../helpers/ProductHelper';
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styles from './ProductDetail.module.css';
@@ -29,10 +30,7 @@ const ProductDetail = props => {
   const images = productImages.map(image => {
     return (
       <div key={image.id}>
-        <img
-          alt=''
-          src={`http://localhost:8080/product/images/download/${image.filename}`}
-        />
+        <img alt='' src={getProductImageUrl(image.filename)} />
       </div>
     );
   });
@@ -45,12 +43,17 @@ const ProductDetail = props => {
   const handleAddToCart = async values => {
     if (props.auth) {
       try {
+        const { hide } = cogoToast.loading('Adding item to cart.', {
+          hideAfter: 0
+        });
         const { size, quantity } = values;
         const token = props.auth.jwt;
         await onAddToCart({ productId: id, size, quantity }, token);
+        hide();
+        cogoToast.success('Item added to cart successfully.');
         history.push('/cart');
       } catch (error) {
-        console.log(error.message);
+        cogoToast.error('Failed to add item to cart.');
       }
     } else {
       history.push('/sign-in');
@@ -58,12 +61,17 @@ const ProductDetail = props => {
   };
 
   const handleAddToWishlist = async () => {
+    const { hide } = cogoToast.loading('Adding product to wishlist.', {
+      hideAfter: 0
+    });
     if (props.auth) {
       try {
         const token = props.auth.jwt;
         await onAddToWishlist(id, token);
-        history.push('/');
+        hide();
+        cogoToast.success('Product added to wishlist successfully.');
       } catch (error) {
+        hide();
         const errMsg = JSON.parse(error.request.response);
         cogoToast.error(errMsg.message);
       }
