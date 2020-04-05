@@ -1,6 +1,8 @@
 import React from 'react';
 import { MDBBtn } from 'mdbreact';
 
+import { getProductImageUrl } from '../../helpers/ProductHelper';
+
 import styles from './CartItem.module.css';
 
 const CartItem = props => {
@@ -24,7 +26,7 @@ const CartItem = props => {
         <div className={styles.image__container}>
           <img
             alt=''
-            src={`http://localhost:8080/product/images/download/${product.productImages[0].filename}`}
+            src={getProductImageUrl(product.productImages[0].filename)}
           />
         </div>
         <div className={styles.properties__container}>
