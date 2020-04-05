@@ -5,28 +5,42 @@ import cogoToast from 'cogo-toast';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import { TextInput, CustomButton } from './../../components';
+import { TextInput, CustomButton, Spinner } from './../../components';
 import { onSignIn } from '../../api/auth';
 import { authSuccess } from './../../store/actions/auth';
+import { useCustomState } from '../../helpers/hooks';
 
 import styles from './SignIn.module.css';
 
 const SignIn = props => {
   const history = useHistory();
+
+  const [state, setState] = useCustomState({
+    loading: false
+  });
+
   const handleSignIn = async values => {
     try {
+      setState({
+        loading: true
+      });
       const { username, password } = values;
       const result = await onSignIn({ username, password });
       const data = result.data;
       localStorage.setItem('auth', JSON.stringify(data));
       props.onSuccess({ ...data });
       if (result.status === 200) {
+        setState({
+          loading: false
+        });
         history.push('/');
       }
     } catch (error) {
-      if (error.response.status === 403 || error.response.status === 404) {
-        cogoToast.error('Invalid username or password.');
-      }
+      setState({
+        loading: false
+      });
+      const errorMessage = JSON.parse(error.request.response);
+      cogoToast.error(errorMessage.message);
     }
   };
 
@@ -44,7 +58,9 @@ const SignIn = props => {
       validationSchema={signInSchema}
     >
       {() => {
-        return (
+        return state.loading ? (
+          <Spinner />
+        ) : (
           <div className={styles.container}>
             <div>
               <span>SIGN IN</span>
