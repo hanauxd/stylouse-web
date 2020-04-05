@@ -11,6 +11,7 @@ import {
 } from 'mdbreact';
 
 import { onAddToWishlist } from '../../api/wishlist';
+import { getProductImageUrl } from '../../helpers/ProductHelper';
 
 import styles from './ProductListItem.module.css';
 
@@ -24,7 +25,6 @@ const ProductListItem = props => {
   const {
     product: { id, name, price }
   } = props;
-  const src = `http://localhost:8080/product/images/download/${props.product.productImages[0].filename}`;
   const category = props.product.productCategories[0].category.category;
 
   const handleViewProduct = () => {
@@ -35,10 +35,16 @@ const ProductListItem = props => {
 
   const handleAddToWishlist = async () => {
     if (props.auth) {
+      const { hide } = cogoToast.loading('Adding item to wishlist.', {
+        hideAfter: 0
+      });
       try {
         const token = props.auth.jwt;
         await onAddToWishlist(id, token);
+        hide();
+        cogoToast.success('Item added to wishlist successfully.');
       } catch (error) {
+        hide();
         const errMsg = JSON.parse(error.request.response);
         cogoToast.error(errMsg.message);
       }
@@ -54,7 +60,7 @@ const ProductListItem = props => {
           <MDBCardImage
             style={{ width: '18rem', height: `${18 / (525 / 668)}rem` }}
             className='img-fluid'
-            src={src}
+            src={getProductImageUrl(props.product.productImages[0].filename)}
             waves
           />
         </div>

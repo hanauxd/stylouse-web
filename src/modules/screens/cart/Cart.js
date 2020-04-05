@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { MDBBtn, MDBIcon } from 'mdbreact';
+import cogoToast from 'cogo-toast';
 
-import { onGetCartItems } from '../../api/cart';
+import { onRemoveCart, onGetCartItems } from './../../api/cart';
 import { useCustomState } from '../../helpers/hooks';
 import { CartItem, Spinner } from '../../components';
 
 import styles from './Cart.module.css';
-import { useHistory } from 'react-router-dom';
-import { onRemoveCart } from './../../api/cart';
-import { MDBBtn, MDBIcon } from 'mdbreact';
 
 const Cart = props => {
   const formatter = new Intl.NumberFormat('en-US', {
@@ -38,16 +38,19 @@ const Cart = props => {
 
   const handleRemoveCart = async id => {
     try {
+      const { hide } = cogoToast.loading('Removing item.', { hideAfter: 0 });
       await onRemoveCart(id, props.auth.jwt);
       const newCarts = state.carts.filter(value => {
         return value.id !== id;
       });
+      hide();
+      cogoToast.success('Item removed successfully.');
       setState({
         carts: [...newCarts]
       });
       renderCartTotal(newCarts);
     } catch (error) {
-      console.log(error.message);
+      cogoToast.error('Item remove failed.');
     }
   };
 
@@ -75,7 +78,6 @@ const Cart = props => {
       });
       renderCartTotal(result);
     } catch (error) {
-      console.log(error);
       setState({
         loading: false,
         error: error.message
