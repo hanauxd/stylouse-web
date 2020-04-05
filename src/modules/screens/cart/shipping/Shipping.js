@@ -23,8 +23,7 @@ const Shipping = props => {
       history.push('/');
     } catch (error) {
       hide();
-      const errorMsg = JSON.parse(error.request.response);
-      cogoToast.error(errorMsg);
+      cogoToast.error('Failed to place the order.');
     }
   };
 
