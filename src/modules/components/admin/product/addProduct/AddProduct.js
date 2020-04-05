@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form as FileForm, DropZone } from 'react-formik-ui';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 
 import { useCustomState } from '../../../../helpers/hooks';
 import { onFetchCategories } from '../../../../api/category';
@@ -12,6 +14,8 @@ import { Spinner, CustomButton, InputField } from '../../../index';
 import styles from './AddProduct.module.css';
 
 const AddProduct = props => {
+  const history = useHistory();
+
   const optionStyle = {
     border: 'none',
     borderBottom: '1px solid #cccccc',
@@ -66,6 +70,7 @@ const AddProduct = props => {
   });
 
   const handleAddProduct = async values => {
+    const { hide } = cogoToast.loading('Adding product.', { hideAfter: 0 });
     try {
       const product = {
         name: values.name,
@@ -77,7 +82,12 @@ const AddProduct = props => {
       const files = values.files;
       const token = props.auth.jwt;
       await onAddProduct(product, files, token);
+      hide();
+      cogoToast.success('Product added successfully.');
+      history.push('/');
     } catch (error) {
+      hide();
+      cogoToast.error('Faied to add product.');
       setState({
         loading: false,
         error: error.meesage

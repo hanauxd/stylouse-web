@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import { withRouter, useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 
 import { Spinner, InputField, CustomButton } from '../../..';
 import { onGetProduct, onUpdateProduct } from '../../../../api/products';
 import { useCustomState } from '../../../../helpers/hooks';
+import { getProductImageUrl } from '../../../../helpers/ProductHelper';
 
 import styles from './EditProduct.module.css';
 
@@ -22,8 +24,7 @@ const EditProduct = props => {
   const [state, setState] = useCustomState({
     loading: true,
     error: null,
-    product: {},
-    updateError: null
+    product: {}
   });
 
   useEffect(() => {
@@ -51,13 +52,16 @@ const EditProduct = props => {
   };
 
   const handleUpdateProduct = async values => {
+    const { hide } = cogoToast.loading('Updating product.', { hideAfter: 0 });
     try {
-      setState({ updateError: null });
       const token = props.auth.jwt;
       await onUpdateProduct(values, token);
+      hide();
+      cogoToast.success('Product updated successfully.');
       history.push('/');
     } catch (error) {
-      setState({ updateError: JSON.parse(error.request.response) });
+      hide();
+      cogoToast.error('Failed to update product.');
     }
   };
 
@@ -86,7 +90,7 @@ const EditProduct = props => {
         <div className={styles.image__div}>
           <img
             className={styles.image}
-            src={`http://localhost:8080/product/images/download/${productImages[0].filename}`}
+            src={getProductImageUrl(productImages[0].filename)}
             alt='Product'
           />
         </div>
@@ -133,11 +137,6 @@ const EditProduct = props => {
                   values={values.quantity}
                 />
                 <CustomButton gradient='purple' type='submit' text='SAVE' />
-                {state.updateError && (
-                  <span className={styles.error}>
-                    {state.updateError.message}
-                  </span>
-                )}
               </Form>
             )}
           </Formik>
