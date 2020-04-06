@@ -4,8 +4,7 @@ import cogoToast from 'cogo-toast';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import { TextInput, CustomButton, Spinner } from './../../components';
-import { useCustomState } from '../../helpers/hooks';
+import { TextInput, CustomButton } from './../../components';
 import { onSignUp } from './../../api/auth';
 
 import styles from './SignUp.module.css';
@@ -13,15 +12,9 @@ import styles from './SignUp.module.css';
 const SignUp = props => {
   const history = useHistory();
 
-  const [state, setState] = useCustomState({
-    loading: false
-  });
-
   const handleSignUp = async values => {
+    const { hide } = cogoToast.loading('Signing up');
     try {
-      setState({
-        loading: true
-      });
       const { firstName, lastName, phone, email, password } = values;
       const result = await onSignUp({
         firstName,
@@ -32,12 +25,11 @@ const SignUp = props => {
         role: 'ROLE_USER'
       });
       if (result.status === 201) {
+        hide();
         history.push('/sign-in');
       }
     } catch (error) {
-      setState({
-        loading: false
-      });
+      hide();
       const errorMessage = JSON.parse(error.request.response);
       cogoToast.error(errorMessage.message);
     }
@@ -70,9 +62,7 @@ const SignUp = props => {
         validationSchema={SignUpSchema}
       >
         {() => {
-          return state.loading ? (
-            <Spinner />
-          ) : (
+          return (
             <div className={styles.container}>
               <div>
                 <span>SIGN UP</span>
