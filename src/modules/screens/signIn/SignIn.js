@@ -11,10 +11,10 @@ import { authSuccess } from './../../store/actions/auth';
 
 import styles from './SignIn.module.css';
 
-const SignIn = props => {
+const SignIn = (props) => {
   const history = useHistory();
 
-  const handleSignIn = async values => {
+  const handleSignIn = async (values) => {
     const { hide } = cogoToast.loading('Signing in');
     try {
       const { username, password } = values;
@@ -37,12 +37,12 @@ const SignIn = props => {
     username: Yup.string()
       .email('Invalid email.')
       .required('Email is required.'),
-    password: Yup.string().required('Password is required.')
+    password: Yup.string().required('Password is required.'),
   });
 
   return (
     <Formik
-      initialValues={{ username: 'user@test.com', password: 'password' }}
+      initialValues={{ username: '', password: '' }}
       onSubmit={handleSignIn}
       validationSchema={signInSchema}
     >
@@ -78,17 +78,17 @@ const SignIn = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    auth: state.auth.auth
+    auth: state.auth.auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onSuccess: authData => {
+    onSuccess: (authData) => {
       dispatch(authSuccess(authData));
-    }
+    },
   };
 };
 
