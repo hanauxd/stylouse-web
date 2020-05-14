@@ -15,19 +15,19 @@ import { getProductImageUrl } from '../../helpers/ProductHelper';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styles from './ProductDetail.module.css';
 
-const ProductDetail = props => {
+const ProductDetail = (props) => {
   const history = useHistory();
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'LKR'
+    currency: 'LKR',
   });
 
   const {
-    product: { id, name, price, quantity, description, productImages }
+    product: { id, name, price, quantity, description, productImages },
   } = props;
 
-  const images = productImages.map(image => {
+  const images = productImages.map((image) => {
     return (
       <div key={image.id}>
         <img alt='' src={getProductImageUrl(image.filename)} />
@@ -37,14 +37,14 @@ const ProductDetail = props => {
 
   const productDetailSchema = Yup.object().shape({
     quantity: Yup.number().min(1, 'Quantity is required.'),
-    size: Yup.string().required('Size is required.')
+    size: Yup.string().required('Size is required.'),
   });
 
-  const handleAddToCart = async values => {
+  const handleAddToCart = async (values) => {
     if (props.auth) {
       try {
         const { hide } = cogoToast.loading('Adding item to cart.', {
-          hideAfter: 0
+          hideAfter: 0,
         });
         const { size, quantity } = values;
         const token = props.auth.jwt;
@@ -62,7 +62,7 @@ const ProductDetail = props => {
 
   const handleAddToWishlist = async () => {
     const { hide } = cogoToast.loading('Adding product to wishlist.', {
-      hideAfter: 0
+      hideAfter: 0,
     });
     if (props.auth) {
       try {
@@ -80,6 +80,50 @@ const ProductDetail = props => {
     }
   };
 
+  const handleSignIn = () => {
+    history.push('/sign-in');
+  };
+
+  const renderAuthButtons = ({ handleSubmit }) => {
+    return (
+      <div className={styles.button__div}>
+        <MDBBtn
+          className={styles.button}
+          disabled={quantity <= 0}
+          outline
+          color='purple'
+          onClick={handleSubmit}
+        >
+          ADD TO CART
+        </MDBBtn>
+        <MDBBtn
+          className={styles.button}
+          gradient='purple'
+          type='button'
+          onClick={handleAddToWishlist}
+        >
+          ADD TO WISHLIST
+        </MDBBtn>
+      </div>
+    );
+  };
+
+  const renderSignInButton = () => {
+    return (
+      <div className={styles.button__div}>
+        <MDBBtn
+          className={styles.button}
+          outline
+          color='purple'
+          type='button'
+          onClick={handleSignIn}
+        >
+          SIGN IN
+        </MDBBtn>
+      </div>
+    );
+  };
+
   const renderProductDetail = () => {
     return (
       <div className={styles.container}>
@@ -87,7 +131,7 @@ const ProductDetail = props => {
           <Carousel>{images}</Carousel>
         </div>
         <Formik
-          onSubmit={values => handleAddToCart(values)}
+          onSubmit={(values) => handleAddToCart(values)}
           initialValues={{ quantity: 0, size: '' }}
           validationSchema={productDetailSchema}
         >
@@ -125,25 +169,9 @@ const ProductDetail = props => {
                 onSelect={setFieldValue}
                 value={values.quantity}
               />
-              <div className={styles.button__div}>
-                <MDBBtn
-                  className={styles.button}
-                  disabled={quantity <= 0}
-                  outline
-                  color='purple'
-                  onClick={handleSubmit}
-                >
-                  ADD TO CART
-                </MDBBtn>
-                <MDBBtn
-                  className={styles.button}
-                  gradient='purple'
-                  type='button'
-                  onClick={handleAddToWishlist}
-                >
-                  ADD TO WISHLIST
-                </MDBBtn>
-              </div>
+              {props.auth
+                ? renderAuthButtons({ handleSubmit })
+                : renderSignInButton()}
             </div>
           )}
         </Formik>
@@ -154,9 +182,9 @@ const ProductDetail = props => {
   return renderProductDetail();
 };
 
-const mapPropsToState = state => {
+const mapPropsToState = (state) => {
   return {
-    auth: state.auth.auth
+    auth: state.auth.auth,
   };
 };
 
