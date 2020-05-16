@@ -15,3 +15,6 @@ export { default as AddCategory } from './admin/category/AddCategory';
 export { default as Auth } from './auth/Auth';
 export { default as Spinner } from './ui/spinner/Spinner';
 export { default as User } from './user/User';
+export { default as ReviewForm } from './productReview/reviewForm/ReviewForm';
+export { default as ReviewItem } from './productReview/reviewItem/ReviewItem';
+export { default as ProductReview } from './productReview/ProductReview';
