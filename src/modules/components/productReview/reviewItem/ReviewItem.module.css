@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  font-size: 0.8rem;
+  padding-bottom: 40px;
+}
+
+.text {
+  margin-bottom: 0.5rem;
+}
+
+.user {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+  flex: 1;
+}
+
+.left__div {
+  width: auto;
+}
+
+.right__div {
+  flex: 1;
+}
