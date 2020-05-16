@@ -7,39 +7,39 @@ import { OrderDetail } from '../index';
 
 import styles from './OrderItem.module.css';
 
-const OrderItem = props => {
+const OrderItem = (props) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'LKR'
+    currency: 'LKR',
   });
 
   const {
-    order: { date, orderItems }
+    order: { date, orderItems },
   } = props;
 
   const [state, setState] = useCustomState({
     modal: false,
     total: 0,
-    itemsQty: 0
+    itemsQty: 0,
   });
 
   useEffect(() => {
     let sum = 0;
     let qty = 0;
-    orderItems.forEach(value => {
+    orderItems.forEach((value) => {
       sum += value.quantity * value.product.price;
       qty += value.quantity;
     });
     setState({
       total: sum,
-      itemsQty: qty
+      itemsQty: qty,
     });
     //eslint-disable-next-line
   }, []);
 
   const toggle = () => {
     setState({
-      modal: !state.modal
+      modal: !state.modal,
     });
   };
 
@@ -60,7 +60,12 @@ const OrderItem = props => {
         <span>{formatter.format(state.total)}</span>
       </div>
       <div className={styles.inner__container}>
-        <MDBBtn onClick={toggle} style={{ margin: '0' }} gradient='purple'>
+        <MDBBtn
+          size='sm'
+          onClick={toggle}
+          style={{ margin: '0' }}
+          gradient='purple'
+        >
           VIEW
         </MDBBtn>
 
