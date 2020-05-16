@@ -11,6 +11,7 @@ import { onAddToCart } from './../../api/cart';
 import { ProductColor, ProductSizeList, NumberInput } from './index';
 import { onAddToWishlist } from '../../api/wishlist';
 import { getProductImageUrl } from '../../helpers/ProductHelper';
+import { ProductReview } from '../index';
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import styles from './ProductDetail.module.css';
@@ -127,54 +128,59 @@ const ProductDetail = (props) => {
   const renderProductDetail = () => {
     return (
       <div className={styles.container}>
-        <div className={styles.image__div}>
-          <Carousel>{images}</Carousel>
+        <div className={styles.product_details_container__div}>
+          <div className={styles.image__div}>
+            <Carousel>{images}</Carousel>
+          </div>
+          <Formik
+            onSubmit={(values) => handleAddToCart(values)}
+            initialValues={{ quantity: 0, size: '' }}
+            validationSchema={productDetailSchema}
+          >
+            {({ setFieldValue, values, handleSubmit }) => (
+              <div className={styles.detail__div}>
+                <div className={[styles.decorate, styles.title].join(' ')}>
+                  {name}
+                </div>
+                <div className={[styles.decorate, styles.price].join(' ')}>
+                  {formatter.format(price)}
+                </div>
+                <div className={styles.decorate}>{description}</div>
+                <label className={styles.decorate}>COLORS</label>
+                <div className={[styles.color__div].join(' ')}>
+                  <ProductColor color='black' />
+                  <ProductColor color='white' />
+                </div>
+                <label className={styles.decorate}>SIZES</label>
+                <ProductSizeList
+                  name='size'
+                  className={styles.decorate}
+                  onSelect={setFieldValue}
+                  value={values.size}
+                />
+                <label className={styles.decorate}>
+                  {quantity > 0 ? (
+                    <span>QUANTITY</span>
+                  ) : (
+                    <span>OUT OF STOCK</span>
+                  )}
+                </label>
+                <NumberInput
+                  name='quantity'
+                  stock={quantity}
+                  onSelect={setFieldValue}
+                  value={values.quantity}
+                />
+                {props.auth
+                  ? renderAuthButtons({ handleSubmit })
+                  : renderSignInButton()}
+              </div>
+            )}
+          </Formik>
         </div>
-        <Formik
-          onSubmit={(values) => handleAddToCart(values)}
-          initialValues={{ quantity: 0, size: '' }}
-          validationSchema={productDetailSchema}
-        >
-          {({ setFieldValue, values, handleSubmit }) => (
-            <div className={styles.detail__div}>
-              <div className={[styles.decorate, styles.title].join(' ')}>
-                {name}
-              </div>
-              <div className={[styles.decorate, styles.price].join(' ')}>
-                {formatter.format(price)}
-              </div>
-              <div className={styles.decorate}>{description}</div>
-              <label className={styles.decorate}>COLORS</label>
-              <div className={[styles.color__div].join(' ')}>
-                <ProductColor color='black' />
-                <ProductColor color='white' />
-              </div>
-              <label className={styles.decorate}>SIZES</label>
-              <ProductSizeList
-                name='size'
-                className={styles.decorate}
-                onSelect={setFieldValue}
-                value={values.size}
-              />
-              <label className={styles.decorate}>
-                {quantity > 0 ? (
-                  <span>QUANTITY</span>
-                ) : (
-                  <span>OUT OF STOCK</span>
-                )}
-              </label>
-              <NumberInput
-                name='quantity'
-                stock={quantity}
-                onSelect={setFieldValue}
-                value={values.quantity}
-              />
-              {props.auth
-                ? renderAuthButtons({ handleSubmit })
-                : renderSignInButton()}
-            </div>
-          )}
-        </Formik>
+        <div className={styles.product_review_container__div}>
+          <ProductReview productId={id} />
+        </div>
       </div>
     );
   };

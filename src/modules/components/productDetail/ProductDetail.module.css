@@ -3,6 +3,9 @@
   height: 90%;
   max-width: 800px;
   margin: 2% auto;
+}
+
+.product_details_container__div {
   display: flex;
 }
 
@@ -48,8 +51,11 @@
 }
 
 @media (max-width: 700px) {
-  .container {
+  .product_details_container__div {
     flex-direction: column;
+  }
+
+  .container {
     padding: 2%;
   }
 
@@ -59,6 +65,7 @@
 
   .detail__div {
     width: 100%;
+    padding: 0px;
   }
 }
 
