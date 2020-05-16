@@ -7,7 +7,7 @@ import {
   MDBCardImage,
   MDBCardBody,
   MDBCardTitle,
-  MDBIcon
+  MDBIcon,
 } from 'mdbreact';
 
 import { onAddToWishlist } from '../../api/wishlist';
@@ -15,15 +15,15 @@ import { getProductImageUrl } from '../../helpers/ProductHelper';
 
 import styles from './ProductListItem.module.css';
 
-const ProductListItem = props => {
+const ProductListItem = (props) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'LKR'
+    currency: 'LKR',
   });
 
   const history = useHistory();
   const {
-    product: { id, name, price }
+    product: { id, name, price },
   } = props;
   const category = props.product.productCategories[0].category.category;
 
@@ -36,7 +36,7 @@ const ProductListItem = props => {
   const handleAddToWishlist = async () => {
     if (props.auth) {
       const { hide } = cogoToast.loading('Adding item to wishlist.', {
-        hideAfter: 0
+        hideAfter: 0,
       });
       try {
         const token = props.auth.jwt;
@@ -106,9 +106,9 @@ const ProductListItem = props => {
   );
 };
 
-const mapPropsToState = state => {
+const mapPropsToState = (state) => {
   return {
-    auth: state.auth.auth
+    auth: state.auth.auth,
   };
 };
 

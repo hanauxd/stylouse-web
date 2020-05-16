@@ -9,10 +9,10 @@ import { onSignUp } from './../../api/auth';
 
 import styles from './SignUp.module.css';
 
-const SignUp = props => {
+const SignUp = (props) => {
   const history = useHistory();
 
-  const handleSignUp = async values => {
+  const handleSignUp = async (values) => {
     const { hide } = cogoToast.loading('Signing up');
     try {
       const { firstName, lastName, phone, email, password } = values;
@@ -22,7 +22,7 @@ const SignUp = props => {
         phone,
         email,
         password,
-        role: 'ROLE_USER'
+        role: 'ROLE_USER',
       });
       if (result.status === 201) {
         hide();
@@ -38,14 +38,17 @@ const SignUp = props => {
   const SignUpSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required.'),
     lastName: Yup.string().required('Last name is required.'),
-    phone: Yup.string().required('Phone is required.'),
+    phone: Yup.number()
+      .positive()
+      .integer()
+      .required('Phone is required.'),
     email: Yup.string()
       .email('Invalid email address.')
       .required('Email is required.'),
     password: Yup.string()
       .required('Password is required.')
       .min(4, 'Password should be minimum 4 characters.')
-      .max(15, 'Password should be maximum 15 characters.')
+      .max(15, 'Password should be maximum 15 characters.'),
   });
 
   return (
@@ -56,7 +59,7 @@ const SignUp = props => {
           lastName: '',
           phone: '',
           email: '',
-          password: ''
+          password: '',
         }}
         onSubmit={handleSignUp}
         validationSchema={SignUpSchema}
@@ -85,7 +88,7 @@ const SignUp = props => {
                 <label>Phone</label>
                 <TextInput
                   name='phone'
-                  type='string'
+                  type='number'
                   placeholder='Enter contact number'
                   required
                 />

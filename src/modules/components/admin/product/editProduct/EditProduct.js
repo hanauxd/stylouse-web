@@ -12,19 +12,19 @@ import { getProductImageUrl } from '../../../../helpers/ProductHelper';
 
 import styles from './EditProduct.module.css';
 
-const EditProduct = props => {
+const EditProduct = (props) => {
   const history = useHistory();
 
   const {
     match: {
-      params: { id }
-    }
+      params: { id },
+    },
   } = props;
 
   const [state, setState] = useCustomState({
     loading: true,
     error: null,
-    product: {}
+    product: {},
   });
 
   useEffect(() => {
@@ -37,12 +37,12 @@ const EditProduct = props => {
       const result = await onGetProduct(id);
       setState({
         loading: false,
-        product: { ...result }
+        product: { ...result },
       });
     } catch (error) {
       setState({
         loading: false,
-        error: error.message
+        error: error.message,
       });
     }
   };
@@ -51,7 +51,7 @@ const EditProduct = props => {
     return <span>{state.error}</span>;
   };
 
-  const handleUpdateProduct = async values => {
+  const handleUpdateProduct = async (values) => {
     const { hide } = cogoToast.loading('Updating product.', { hideAfter: 0 });
     try {
       const token = props.auth.jwt;
@@ -67,14 +67,14 @@ const EditProduct = props => {
 
   const renderEditProduct = () => {
     const {
-      product: { id, name, description, quantity, price, productImages }
+      product: { id, name, description, quantity, price, productImages },
     } = state;
 
     const editProductSchema = Yup.object().shape({
       name: Yup.string().required('Product name is required'),
       description: Yup.string().required('Description is required.'),
       quantity: Yup.string().required('Quantity is required.'),
-      price: Yup.string().required('Price is required.')
+      price: Yup.string().required('Price is required.'),
     });
 
     const initialValues = {
@@ -82,7 +82,7 @@ const EditProduct = props => {
       name,
       description,
       quantity,
-      price
+      price,
     };
 
     return (
@@ -154,9 +154,9 @@ const EditProduct = props => {
   );
 };
 
-const mapPropsToState = state => {
+const mapPropsToState = (state) => {
   return {
-    auth: state.auth.auth
+    auth: state.auth.auth,
   };
 };
 
