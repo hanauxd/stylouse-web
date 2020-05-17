@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  align-items: flex-end;
+}
+
+.average_container__div {
+  text-align: center;
+  width: auto;
+}
+
+.details_container__div {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.average {
+  font-size: 65px;
+}
+
+.count {
+  font-size: 0.7rem;
+}
