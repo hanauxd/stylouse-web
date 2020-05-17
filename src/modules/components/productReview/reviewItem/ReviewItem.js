@@ -1,8 +1,8 @@
 import React from 'react';
 import { Rating } from '@material-ui/lab';
 import { Avatar } from '@material-ui/core';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { red } from '@material-ui/core/colors';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
 import { formatDate } from '../../../helpers/DateFormatter';
 
