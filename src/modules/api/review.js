@@ -11,6 +11,5 @@ export const onFetchReviewsByProduct = (productId, token) => {
 };
 
 export const onDeleteReview = (reviewId, token) => {
-  const endpoint = `reviews/${reviewId}`;
-  return remove(endpoint, null, token);
+  return remove('reviews', reviewId, token);
 };
