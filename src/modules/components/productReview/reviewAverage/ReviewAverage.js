@@ -34,7 +34,7 @@ const ReviewAverage = (props) => {
   const classes = useStyles();
 
   const renderProgressBar = (star, value) => {
-    const percentage = (value / 5) * 200;
+    const percentage = (value / rateCount) * 100;
     return (
       <div
         style={{
