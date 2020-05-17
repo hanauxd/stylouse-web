@@ -4,7 +4,11 @@ import { MDBBtn } from 'mdbreact';
 import cogoToast from 'cogo-toast';
 
 import { ReviewItem, ReviewAverage, Spinner, ReviewForm } from '..';
-import { onFetchReviewsByProduct, onCreateReview } from '../../api/review';
+import {
+  onFetchReviewsByProduct,
+  onCreateReview,
+  onDeleteReview,
+} from '../../api/review';
 import { useCustomState } from '../../helpers/hooks';
 
 const ProductReview = (props) => {
@@ -62,6 +66,26 @@ const ProductReview = (props) => {
     handleClose();
   };
 
+  const handleRemoveReview = async (reviewId) => {
+    try {
+      const token = props.auth.jwt;
+      const result = await onDeleteReview(reviewId, token);
+      setState({
+        reviews: [...result.data.reviews],
+        average: result.data.average,
+        count: result.data.count,
+        hasUserRated: result.data.hasUserRated,
+      });
+    } catch (error) {
+      if (error.request) {
+        const message = JSON.parse(error.request.response).message;
+        cogoToast.error(message);
+      } else {
+        cogoToast('Failed to remove the review.');
+      }
+    }
+  };
+
   const fetchReviewsForProduct = async () => {
     try {
       const token = props.auth ? props.auth.jwt : null;
@@ -82,7 +106,14 @@ const ProductReview = (props) => {
   };
 
   const productReviewList = state.reviews.map((review) => {
-    return <ReviewItem key={review.id} review={review} />;
+    return (
+      <ReviewItem
+        key={review.id}
+        review={review}
+        userRole={props.auth ? props.auth.userRole : ''}
+        handleRemoveReview={handleRemoveReview}
+      />
+    );
   });
 
   const renderReviews = () => {
@@ -99,7 +130,9 @@ const ProductReview = (props) => {
             />
           </div>
 
-          {props.auth && !state.hasUserRated ? (
+          {props.auth &&
+          props.auth.userRole === 'ROLE_USER' &&
+          !state.hasUserRated ? (
             <div style={{ width: 'auto', marginLeft: '20px' }}>
               <MDBBtn
                 outline
