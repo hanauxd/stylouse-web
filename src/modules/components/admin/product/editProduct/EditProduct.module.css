@@ -12,6 +12,11 @@
   margin: 2% auto;
   padding: 20px;
   display: flex;
+  flex-direction: column;
+}
+
+.product_details__container {
+  display: flex;
 }
 
 .container h3 {

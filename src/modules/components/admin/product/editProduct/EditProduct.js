@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import cogoToast from 'cogo-toast';
 
-import { Spinner, InputField, CustomButton } from '../../..';
+import { Spinner, InputField, CustomButton, ProductReview } from '../../..';
 import { onGetProduct, onUpdateProduct } from '../../../../api/products';
 import { useCustomState } from '../../../../helpers/hooks';
 import { getProductImageUrl } from '../../../../helpers/ProductHelper';
@@ -87,59 +87,65 @@ const EditProduct = (props) => {
 
     return (
       <div className={styles.container}>
-        <div className={styles.image__div}>
-          <img
-            className={styles.image}
-            src={getProductImageUrl(productImages[0].filename)}
-            alt='Product'
-          />
+        <div className={styles.product_details__container}>
+          <div className={styles.image__div}>
+            <img
+              className={styles.image}
+              src={getProductImageUrl(productImages[0].filename)}
+              alt='Product'
+            />
+          </div>
+          <div className={styles.separator} />
+          <div className={styles.form__div}>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleUpdateProduct}
+              validationSchema={editProductSchema}
+            >
+              {({ values, handleChange, handleBlur }) => (
+                <Form>
+                  <h3>EDIT PRODUCT</h3>
+                  <InputField
+                    label='Title'
+                    type='text'
+                    name='name'
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    values={values.name}
+                  />
+                  <InputField
+                    label='Description'
+                    type='text'
+                    name='description'
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    values={values.description}
+                  />
+                  <InputField
+                    label='Price'
+                    type='number'
+                    name='price'
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    values={values.price}
+                  />
+                  <InputField
+                    label='Quantity'
+                    type='number'
+                    name='quantity'
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    values={values.quantity}
+                  />
+                  <CustomButton gradient='purple' type='submit' text='SAVE' />
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
-        <div className={styles.separator} />
-        <div className={styles.form__div}>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleUpdateProduct}
-            validationSchema={editProductSchema}
-          >
-            {({ values, handleChange, handleBlur }) => (
-              <Form>
-                <h3>EDIT PRODUCT</h3>
-                <InputField
-                  label='Title'
-                  type='text'
-                  name='name'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  values={values.name}
-                />
-                <InputField
-                  label='Description'
-                  type='text'
-                  name='description'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  values={values.description}
-                />
-                <InputField
-                  label='Price'
-                  type='number'
-                  name='price'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  values={values.price}
-                />
-                <InputField
-                  label='Quantity'
-                  type='number'
-                  name='quantity'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  values={values.quantity}
-                />
-                <CustomButton gradient='purple' type='submit' text='SAVE' />
-              </Form>
-            )}
-          </Formik>
+        <div>
+          <br />
+          <ProductReview productId={id} />
         </div>
       </div>
     );
