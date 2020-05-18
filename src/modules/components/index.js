@@ -21,4 +21,8 @@ export { default as ProductReview } from './productReview/ProductReview';
 export { default as ReviewAverage } from './productReview/reviewAverage/ReviewAverage';
 export { default as InquiryForm } from './productInquiry/inquiryForm/InquiryForm';
 export { default as InquiryItem } from './productInquiry/inquiryItem/InquiryItem';
+export { default as InquiryItemList } from './productInquiry/inquiryItemList/InquiryItemList';
 export { default as ProductInquiry } from './productInquiry/ProductInquiry';
+export { default as InquiryDetails } from './productInquiry/inquiryDetails/InquiryDetails';
+export { default as Reply } from './productInquiry/reply/Reply';
+export { default as ReplyForm } from './productInquiry/reply/replyForm/ReplyForm';
