@@ -3,13 +3,21 @@ import { connect } from 'react-redux';
 import { MDBBtn } from 'mdbreact';
 import cogoToast from 'cogo-toast';
 
-import { ReviewItem, ReviewAverage, Spinner, ReviewForm } from '..';
+import {
+  ReviewItem,
+  ReviewAverage,
+  Spinner,
+  ReviewForm,
+  ProductInquiry,
+} from '..';
 import {
   onFetchReviewsByProduct,
   onCreateReview,
   onDeleteReview,
 } from '../../api/review';
 import { useCustomState } from '../../helpers/hooks';
+
+import styles from './ProductReview.module.css';
 
 const ProductReview = (props) => {
   const { productId } = props;
@@ -21,7 +29,7 @@ const ProductReview = (props) => {
     average: 0.0,
     hasUserRated: false,
     count: null,
-    open: false,
+    reviewDialogOpen: false,
   });
 
   useEffect(() => {
@@ -29,15 +37,15 @@ const ProductReview = (props) => {
     //eslint-disable-next-line
   }, []);
 
-  const handleClose = () => {
+  const handleReviewDialogClose = () => {
     setState({
-      open: false,
+      reviewDialogOpen: false,
     });
   };
 
-  const handleClickOpen = () => {
+  const handleReviewDialogOpen = () => {
     setState({
-      open: true,
+      reviewDialogOpen: true,
     });
   };
 
@@ -63,7 +71,7 @@ const ProductReview = (props) => {
         cogoToast.error(message);
       }
     }
-    handleClose();
+    handleReviewDialogClose();
   };
 
   const handleRemoveReview = async (reviewId) => {
@@ -121,7 +129,7 @@ const ProductReview = (props) => {
       <div>
         <br />
         <h5>Ratings and Reviews</h5>
-        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <div className={styles.review_average__div}>
           <div style={{ flex: 1 }}>
             <ReviewAverage
               average={state.average}
@@ -129,28 +137,31 @@ const ProductReview = (props) => {
               countMap={state.count}
             />
           </div>
-
           {props.auth &&
           props.auth.userRole === 'ROLE_USER' &&
           !state.hasUserRated ? (
-            <div style={{ width: 'auto', marginLeft: '20px' }}>
+            <div className={styles.review_button__div}>
               <MDBBtn
                 outline
                 color='orange'
                 size='sm'
-                onClick={handleClickOpen}
+                onClick={handleReviewDialogOpen}
               >
                 Write a review
               </MDBBtn>
               <ReviewForm
-                handleClose={handleClose}
+                handleClose={handleReviewDialogClose}
                 handleReviewSubmit={handleReviewSubmit}
-                open={state.open}
+                open={state.reviewDialogOpen}
               />
             </div>
           ) : null}
         </div>
-        <br />
+        {props.auth && props.auth.userRole === 'ROLE_USER' ? (
+          <div className={styles.inquiry__div}>
+            <ProductInquiry productId={productId} />
+          </div>
+        ) : null}
         <hr />
         <br />
         {productReviewList}

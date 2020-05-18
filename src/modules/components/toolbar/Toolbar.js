@@ -1,6 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import ChatRoundedIcon from '@material-ui/icons/ChatRounded';
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
+import ShoppingBasketRoundedIcon from '@material-ui/icons/ShoppingBasketRounded';
+import SupervisedUserCircleRoundedIcon from '@material-ui/icons/SupervisedUserCircleRounded';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -12,12 +18,12 @@ import {
   MDBDropdown,
   MDBDropdownToggle,
   MDBDropdownMenu,
-  MDBDropdownItem
+  MDBDropdownItem,
 } from 'mdbreact';
 
 import { logout } from '../../store/actions/auth';
 
-const Toolbar = props => {
+const Toolbar = (props) => {
   const history = useHistory();
 
   const handleAddProduct = () => {
@@ -38,7 +44,9 @@ const Toolbar = props => {
       <MDBCollapse id='navbarCollapse3' isOpen={props.isOpen} navbar>
         <MDBNavbarNav left>
           <MDBNavItem active>
-            <MDBNavLink to='/'>Home</MDBNavLink>
+            <MDBNavLink to='/'>
+              <HomeRoundedIcon />
+            </MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
@@ -58,23 +66,30 @@ const Toolbar = props => {
       <MDBCollapse id='navbarCollapse3' isOpen={props.isOpen} navbar>
         <MDBNavbarNav left>
           <MDBNavItem active>
-            <MDBNavLink to='/'>Home</MDBNavLink>
+            <MDBNavLink to='/'>
+              <HomeRoundedIcon />
+            </MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
           <MDBNavItem>
             <MDBNavLink to='/cart'>
-              Cart <i className='fas fa-shopping-cart'></i>
+              <ShoppingBasketRoundedIcon />
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink to='/message'>
+              <ChatRoundedIcon />
             </MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>
             <MDBNavLink to='/user'>
-              Profile <i className='fas fa-user'></i>
+              <AccountCircleRoundedIcon />
             </MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>
             <MDBNavLink onClick={handleLogout} to='/sign-in'>
-              Signout
+              <ExitToAppRoundedIcon />
             </MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
@@ -87,12 +102,16 @@ const Toolbar = props => {
       <MDBCollapse id='navbarCollapse3' isOpen={props.isOpen} navbar>
         <MDBNavbarNav left>
           <MDBNavItem active>
-            <MDBNavLink to='/'>Home</MDBNavLink>
+            <MDBNavLink to='/'>
+              <HomeRoundedIcon />
+            </MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>
             <MDBDropdown>
               <MDBDropdownToggle nav caret>
-                <div className='d-none d-md-inline'>Admin</div>
+                <div className='d-none d-md-inline'>
+                  <SupervisedUserCircleRoundedIcon />
+                </div>
               </MDBDropdownToggle>
               <MDBDropdownMenu className='dropdown-default'>
                 <MDBDropdownItem onClick={handleAddProduct}>
@@ -107,8 +126,13 @@ const Toolbar = props => {
         </MDBNavbarNav>
         <MDBNavbarNav right>
           <MDBNavItem>
+            <MDBNavLink to='/message'>
+              <ChatRoundedIcon />
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
             <MDBNavLink onClick={handleLogout} to='/sign-in'>
-              Signout
+              <ExitToAppRoundedIcon />
             </MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
@@ -131,17 +155,17 @@ const Toolbar = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    auth: state.auth.auth
+    auth: state.auth.auth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onLogout: () => {
       dispatch(logout());
-    }
+    },
   };
 };
 

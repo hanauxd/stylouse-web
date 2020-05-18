@@ -10,7 +10,8 @@ import {
   Cart,
   Profile,
   OrderHistory,
-  Shipping
+  Shipping,
+  Message,
 } from './screens';
 import {
   Toolbar,
@@ -18,7 +19,7 @@ import {
   Spinner,
   AddProduct,
   AddCategory,
-  EditProduct
+  EditProduct,
 } from './components';
 import { authSuccess } from './store/actions/auth';
 
@@ -27,7 +28,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import styles from './Root.module.css';
 
-const Root = props => {
+const Root = (props) => {
   const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const Root = props => {
   }, []);
 
   const isOpenToggle = () => {
-    setOpen(prevOpen => !prevOpen);
+    setOpen((prevOpen) => !prevOpen);
   };
 
   return props.isCheckingAuth ? (
@@ -62,6 +63,13 @@ const Root = props => {
             </Route>
             <Route path='/cart' exact>
               <Auth component={Cart} auth={props.auth} role='ROLE_USER' />
+            </Route>
+            <Route path='/message' exact>
+              <Auth
+                component={Message}
+                auth={props.auth}
+                role={props.auth && props.auth.userRole}
+              />
             </Route>
             <Route path='/checkout' exact>
               <Auth component={Shipping} auth={props.auth} role='ROLE_USER' />
@@ -104,18 +112,18 @@ const Root = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.auth.auth,
-    isCheckingAuth: state.auth.isCheckingAuth
+    isCheckingAuth: state.auth.isCheckingAuth,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onSuccess: authData => {
+    onSuccess: (authData) => {
       dispatch(authSuccess(authData));
-    }
+    },
   };
 };
 
