@@ -19,3 +19,6 @@ export { default as ReviewForm } from './productReview/reviewForm/ReviewForm';
 export { default as ReviewItem } from './productReview/reviewItem/ReviewItem';
 export { default as ProductReview } from './productReview/ProductReview';
 export { default as ReviewAverage } from './productReview/reviewAverage/ReviewAverage';
+export { default as InquiryForm } from './productInquiry/inquiryForm/InquiryForm';
+export { default as InquiryItem } from './productInquiry/inquiryItem/InquiryItem';
+export { default as ProductInquiry } from './productInquiry/ProductInquiry';
