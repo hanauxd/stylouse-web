@@ -1,0 +1,25 @@
+.review_average__div {
+  display: flex;
+  align-items: flex-end;
+}
+
+.review_button__div {
+  width: auto;
+  margin-left: 20px;
+}
+
+.inquiry__div {
+  text-align: end;
+  margin: 16px 6px 22px 6px;
+}
+
+.inquiry__div:hover {
+  cursor: pointer;
+  color: #ff6c5c;
+}
+
+@media (max-width: 900px) {
+  .review_button__div {
+    margin-left: 0px;
+  }
+}
