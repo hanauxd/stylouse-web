@@ -6,3 +6,5 @@ export { default as Cart } from './cart/Cart';
 export { default as Profile } from './profile/Profile';
 export { default as OrderHistory } from './orderHistory/OrderHistory';
 export { default as Shipping } from './cart/shipping/Shipping';
+export { default as Message } from './message/Message';
+export { default as Menu } from './message/menu/Menu';
