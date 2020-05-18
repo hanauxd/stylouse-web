@@ -31,8 +31,7 @@ const ProductInquiry = (props) => {
         message: values.inquiry,
       };
       const token = props.auth.jwt;
-      const result = await onCreateInquiry(inquiry, token);
-      console.log('[INQUIRY SUBMIT]', result);
+      await onCreateInquiry(inquiry, token);
     } catch (error) {
       if (error.request) {
         const message = JSON.parse(error.request.response).message;

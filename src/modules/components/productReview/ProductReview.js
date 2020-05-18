@@ -157,9 +157,11 @@ const ProductReview = (props) => {
             </div>
           ) : null}
         </div>
-        <div className={styles.inquiry__div}>
-          <ProductInquiry productId={productId} />
-        </div>
+        {props.auth && props.auth.userRole === 'ROLE_USER' ? (
+          <div className={styles.inquiry__div}>
+            <ProductInquiry productId={productId} />
+          </div>
+        ) : null}
         <hr />
         <br />
         {productReviewList}
