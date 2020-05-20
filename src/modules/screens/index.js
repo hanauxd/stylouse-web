@@ -8,3 +8,7 @@ export { default as OrderHistory } from './orderHistory/OrderHistory';
 export { default as Shipping } from './cart/shipping/Shipping';
 export { default as Message } from './message/Message';
 export { default as Menu } from './message/menu/Menu';
+export { default as ForgotPasswordForm } from './resetPassword/forgotPasswordForm/ForgotPasswordForm';
+export { default as ConfirmResetPassword } from './resetPassword/confirmResetPassword/ConfirmResetPassword';
+export { default as ResetPasswordForm } from './resetPassword/resetPasswordForm/ResetPasswordForm';
+export { default as ResetPassword } from './resetPassword/ResetPassword';
