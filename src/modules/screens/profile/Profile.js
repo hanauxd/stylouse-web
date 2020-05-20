@@ -8,23 +8,23 @@ import { Wishlist, User } from '../../components';
 
 import styles from './Profile.module.css';
 
-const Profile = props => {
+const Profile = (props) => {
   const [state, setState] = useCustomState({
-    view: null
+    view: null,
   });
 
   useEffect(() => {
     setState({
-      view: user
+      view: user,
     });
     //eslint-disable-next-line
   }, []);
 
-  const user = <User token={props.auth.jwt} />;
+  const user = <User token={props.auth} />;
   const order = <OrderHistory token={props.auth.jwt} />;
   const wishlist = <Wishlist token={props.auth.jwt} />;
 
-  const handleRenderer = page => {
+  const handleRenderer = (page) => {
     switch (page) {
       case 'order':
         setState({ view: order });
@@ -77,9 +77,9 @@ const Profile = props => {
   );
 };
 
-const mapPropsToState = state => {
+const mapPropsToState = (state) => {
   return {
-    auth: state.auth.auth
+    auth: state.auth.auth,
   };
 };
 
