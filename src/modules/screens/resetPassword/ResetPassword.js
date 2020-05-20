@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import cogoToast from 'cogo-toast';
@@ -15,6 +15,13 @@ const ResetPassword = (props) => {
   const {
     location: { state },
   } = history;
+
+  useEffect(() => {
+    if (typeof state === 'undefined') {
+      history.replace('/');
+    }
+    //eslint-disable-next-line
+  }, []);
 
   const handlePasswordSubmit = async (values) => {
     try {
