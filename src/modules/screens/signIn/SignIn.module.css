@@ -20,6 +20,17 @@
   margin-top: 8px;
 }
 
+.forgotPassword {
+  font-size: 0.8rem;
+  margin: 15px 0;
+  text-align: end;
+}
+
+.forgotPassword:hover {
+  cursor: pointer;
+  color: blueviolet;
+}
+
 @media (max-width: 1000px) {
   .container {
     width: 80%;
