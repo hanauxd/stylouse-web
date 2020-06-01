@@ -14,9 +14,7 @@ const Reply = (props) => {
   } = props;
 
   const formatDate = (date) => {
-    return Moment.utc(date)
-      .local()
-      .format('Do MMMM YYYY, hh:mm a');
+    return Moment(date).format('Do MMMM YYYY, hh:mm a');
   };
   return (
     <div className={styles.container}>

@@ -1,11 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import cogoToast from 'cogo-toast';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import { TextInput, CustomButton } from './../../components';
 import { onSignUp } from './../../api/auth';
+import { authSuccess } from '../../store/actions/auth';
 
 import styles from './SignUp.module.css';
 
@@ -24,10 +26,11 @@ const SignUp = (props) => {
         password,
         role: 'ROLE_USER',
       });
-      if (result.status === 201) {
-        hide();
-        history.push('/sign-in');
-      }
+      const data = result.data;
+      localStorage.setItem('auth', JSON.stringify(data));
+      props.onSuccess({ ...data });
+      hide();
+      history.push('/');
     } catch (error) {
       hide();
       const errorMessage = JSON.parse(error.request.response);
@@ -122,4 +125,18 @@ const SignUp = (props) => {
   );
 };
 
-export default SignUp;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth.auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSuccess: (authData) => {
+      dispatch(authSuccess(authData));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

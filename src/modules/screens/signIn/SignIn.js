@@ -1,18 +1,51 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import cogoToast from 'cogo-toast';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import cogoToast from 'cogo-toast';
 
 import { TextInput, CustomButton } from './../../components';
-import { onSignIn } from '../../api/auth';
+import { onSignIn, onRequestPasswordReset } from '../../api/auth';
 import { authSuccess } from './../../store/actions/auth';
+import { ForgotPasswordForm } from '../index';
+import { useCustomState } from '../../helpers/hooks';
 
 import styles from './SignIn.module.css';
 
 const SignIn = (props) => {
   const history = useHistory();
+
+  const [state, setState] = useCustomState({
+    isOpen: false,
+  });
+
+  const handleForgotPasswordClose = () => {
+    setState({
+      isOpen: false,
+    });
+  };
+
+  const handleForgotPasswordOpen = () => {
+    setState({
+      isOpen: true,
+    });
+  };
+
+  const handleForgotPassword = async (values) => {
+    try {
+      await onRequestPasswordReset(values.email);
+      setState({
+        isOpen: false,
+      });
+      history.push('/confirm-reset-password', { email: values.email });
+    } catch (error) {
+      if (error.request) {
+        const message = JSON.parse(error.request.response).message;
+        cogoToast.error(message);
+      }
+    }
+  };
 
   const handleSignIn = async (values) => {
     const { hide } = cogoToast.loading('Signing in');
@@ -67,6 +100,17 @@ const SignIn = (props) => {
                 placeholder='Enter password'
                 required
               />
+              <div
+                className={styles.forgotPassword}
+                onClick={handleForgotPasswordOpen}
+              >
+                Forgot Password?
+                <ForgotPasswordForm
+                  open={state.isOpen}
+                  handleForgotPasswordSubmit={handleForgotPassword}
+                  handleClose={handleForgotPasswordClose}
+                />
+              </div>
               <div className={styles.button}>
                 <CustomButton gradient='purple' type='submit' text='SIGN IN' />
               </div>

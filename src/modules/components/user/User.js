@@ -1,16 +1,24 @@
 import React, { useEffect } from 'react';
-import { MDBRow, MDBCol, MDBInput } from 'mdbreact';
+import { MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 
 import styles from './User.module.css';
 import { useCustomState } from '../../helpers/hooks';
 import { onViewProfile } from './../../api/user';
 import { Spinner } from '..';
+import { useHistory } from 'react-router-dom';
 
-const User = props => {
+const User = (props) => {
+  const history = useHistory();
+
+  const {
+    token,
+    token: { jwt },
+  } = props;
+
   const [state, setState] = useCustomState({
     loading: true,
     error: null,
-    user: null
+    user: null,
   });
 
   useEffect(() => {
@@ -20,15 +28,15 @@ const User = props => {
 
   const fetchUser = async () => {
     try {
-      const result = await onViewProfile(props.token);
+      const result = await onViewProfile(jwt);
       setState({
         loading: false,
-        user: { ...result }
+        user: { ...result },
       });
     } catch (error) {
       setState({
         loading: false,
-        error: error.message
+        error: error.message,
       });
     }
   };
@@ -39,6 +47,10 @@ const User = props => {
 
   const renderError = () => {
     return <h5>{state.error}</h5>;
+  };
+
+  const handleChangePasswordClick = () => {
+    history.push('/reset-password', { ...token });
   };
 
   const renderUser = () => {
@@ -85,6 +97,9 @@ const User = props => {
             />
           </MDBCol>
         </MDBRow>
+        <MDBBtn outline color='purple' onClick={handleChangePasswordClick}>
+          Change Password
+        </MDBBtn>
       </div>
     );
   };

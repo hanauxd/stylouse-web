@@ -12,6 +12,8 @@ import {
   OrderHistory,
   Shipping,
   Message,
+  ConfirmResetPassword,
+  ResetPassword,
 } from './screens';
 import {
   Toolbar,
@@ -57,6 +59,12 @@ const Root = (props) => {
             </Route>
             <Route path='/sign-in' exact>
               <SignIn />
+            </Route>
+            <Route path='/confirm-reset-password'>
+              <ConfirmResetPassword />
+            </Route>
+            <Route path='/reset-password'>
+              <ResetPassword />
             </Route>
             <Route path='/products/:id'>
               <ProductDetail />
